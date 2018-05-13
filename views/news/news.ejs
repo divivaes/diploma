@@ -1,0 +1,54 @@
+<%- include ../inc/header.ejs %>
+
+<%- include ../inc/menu.ejs %>
+
+
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4 announcement-body">
+          <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="/home">Главная страница</a></li>
+              <li class="breadcrumb-item"><a href="/web">Работа с клиентами</a></li>
+              <li class="breadcrumb-item active" aria-current="page"><%= title %></li>
+            </ol>
+          </nav> 
+        	<div class="news-header">
+        		<div class="news-title">
+        			<h2><%= title %> </h2>
+        		</div>
+        		<div class="news-add">
+          			<a href="/insurance/news/add" class="btn btn-add">Добавить новость</a>
+          		</div>
+        	</div>
+          <hr>
+        	<div class="container">
+        		<% if(data.length){
+
+                  for(var i = 0;i < data.length;i++) { %>
+	          		<div class="col-md-12" style="margin-bottom: 40px;">
+		      			<div class="news-block">
+			          	<h1><%= data[i].n_title %></h1>
+						      <p><%= data[i].n_body %></p>
+						      <div class="news-actions">
+  						    	<div class="news-date">
+  						    		<span class="badge badge-dark">Добавлено <%= data[i].n_date %></span>	
+  						    	</div>
+  								  <div class="news-buttons">
+    									<a href="/insurance/news/edit/<%= data[i].id %>" class="btn btn-edit">Редактировать</a>
+    									<a href="/insurance/news/delete/<%= data[i].id %>" class="btn btn-delete">Удалить</a>
+  								  </div> 
+						     </div>
+			      		</div>
+	        		</div>
+	        		<% }
+
+                  }else{ %>
+                  	<div class="col-md-12">
+                  		<div class="news-block">
+                  			<h2>Не найдено новостей</h2>
+                  		</div>
+                  	</div>
+                <% } %>
+        	</div>
+        </main>
+
+<%- include ../inc/footer.ejs %>

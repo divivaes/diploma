@@ -1,0 +1,100 @@
+<%- include ../inc/header.ejs %>
+
+<%- include ../inc/menu.ejs %>
+
+<%- messages('../inc/messages.ejs', locals) %>
+
+<main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4" style="margin-bottom: 40px;">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="/home">Главная страница</a></li>
+      <li class="breadcrumb-item"><a href="/policies">Полисы </a></li>
+      <li class="breadcrumb-item"><a href="/insurance/kasko">КАСКО</a></li>
+      <li class="breadcrumb-item"><a href="/insurance/kasko/clients">Список клиентов по КАСКО</a></li>
+      <li class="breadcrumb-item active" aria-current="page">Просмотр клиента - <%= data[0].client_fullname %></li>
+    </ol>
+  </nav>  
+<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xs-offset-0 col-sm-offset-0 col-md-offset-3 col-lg-offset-3 toppad" >
+
+
+    <div class="panel panel-info">
+      <div class="panel-heading">
+        <h3 class="panel-title"><%= title %> &ndash; <%= data[0].client_fullname %></h3>
+      </div>
+      <div class="panel-body">
+        <div class="row">
+          <div class=" col-md-12 col-lg-12">
+            <table class="table table-user-information type-table">
+              <tbody>
+                <tr>
+                  <td>ФИО клиента:</td>
+                  <td><strong><%= data[0].client_fullname %></strong></td>
+                </tr>
+                <tr>
+                  <td>Адрес клиента:</td>
+                  <td><strong><%= data[0].client_address %></strong></td>
+                </tr>
+                <tr>
+                  <td>Телефон клиента:</td>
+                  <td><strong><%= data[0].client_phone %></strong></td>
+                </tr>
+                <tr>
+                  <td>Почта клиента: </td>
+                  <td><strong><%= data[0].client_email %></strong></td>
+                </tr>
+                <tr>
+                  <td>ИИН :</td>
+                  <td><strong><%= data[0].driver_iin %></strong></td>
+                </tr>
+                <tr>
+                  <td>Возраст :</td>
+                  <td><strong><%if(data[0].driver_age == 0) {%> 25 лет и старше <%} else if (data[0].driver_age == 1) {%> Менее 25 лет <%} %></strong></td>
+                </tr>
+                <tr>
+                  <td>Опыт вождения :</td>
+                  <td><strong><%if(data[0].driver_experience == 0) {%> 2 года и более <%} else if (data[0].driver_experience == 1) {%> Менее 2 лет <%} %></strong></td>
+                </tr>
+                <tr>
+                  <td>Тип транспортного средства:</td>
+                  <td><strong><%if(data[0].car_type == 0){%> Легковой автомобиль <%} else if (data[0].car_type == 1){%> Автобусы до 16 мест <%} else if (data[0].car_type == 2){%> Автобусы более 16 мест <%} else if (data[0].car_type == 3){%> Грузовые <%} else if(data[0].car_type == 4) {%> Троллейбусы, трамваи <%} else if (data[0].car_type == 5) {%> Мототранспорт <%} else if (data[0].car_type == 6) {%> Прицепы (полуприцепы) <%} %></strong></td>
+                </tr>
+                <tr>
+                  <td>Год выпуска ТС:</td>
+                  <td><strong><%if(data[0].car_year == 0) {%> До 7 лет <%} else if (data[0].car_year == 1) {%> Более 7 лет <%} %></strong></td>
+                </tr>
+                <tr>
+                  <td>Гос.номер ТС:</td>
+                  <td><strong><%= data[0].car_number %></strong></td>
+                </tr>
+                <tr>
+                  <td>Номер кузова (VIN):</td>
+                  <td><strong><%= data[0].car_vin %></strong></td>
+                </tr>
+                <tr>
+                  <td>Сумма страхования:</td>
+                  <td><strong><%= data[0].ins_price %></strong></td>
+                </tr>
+                <tr>
+                  <td>Способ оплаты:</td>
+                  <td><strong><%= data[0].payment_type %></strong></td>
+                </tr>
+                <tr>
+                  <td>Статус заявки:</td>
+                  <td><strong>В процессе<%if (data[0].status == 0){%> В процессе <%} %></strong></td>
+                </tr>
+                <tr>
+                  <td>Менеджер:</td>
+                  <td><a href="/staff/show/<%= data[0].manager_id %>"><%= data[0].m_fullname %></a></td>
+                </tr>
+              </tbody>
+            </table>
+            <a href="/insurance/kasko/clients" class="btn btn-back">Обратно к списку </a>
+            <a href="/insurance/kasko/client/edit/<%=data[0].id%>" class="btn btn-edit">Редактировать</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<%- include ../inc/footer.ejs %>

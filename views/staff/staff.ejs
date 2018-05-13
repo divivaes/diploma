@@ -1,0 +1,65 @@
+<%- include ../inc/header.ejs %>
+
+<%- include ../inc/menu.ejs %>
+
+
+<%- messages('../inc/messages.ejs', locals) %>
+
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4" style="margin-bottom: 40px;">
+          <div class="staff-header">
+            <h2><%= title %></h2> 
+            <a href="/staff/plus" class="btn btn-add">Добавить менеджера</a>
+          </div>
+          <form action="/staff/find" method="get">
+            <input class="form-control form-control-dark" name="keyword" type="text" placeholder="Введите ФИО, должность, телефон ..." aria-label="Search">
+          </form>
+          <div class="table-responsive">
+            <table class="table table-striped table-lg staff">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>ФИО</th>
+                  <th>Должность</th>
+                  <th>Телефон</th>
+                  <th>Почта</th>
+                  <th>Пол</th>
+                  <th>Дата рождения</th>
+                  <th>Дата приема на работу</th>
+                  <th>Действия</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% if(data.length){
+                
+                  for(var i = 0;i < data.length;i++) { %>
+
+                  <tr>
+                      <td><%=data[i].id%></td>
+                      <td><%=data[i].m_fullname%></td>
+                      <td><%=data[i].m_title%></td>
+                      <td><%=data[i].m_phone%></td>
+                      <td><%=data[i].m_email%></td>
+                      <td><%=data[i].m_gender%></td>
+                      <td><%=data[i].m_birthdate%></td>
+                      <td><%=data[i].m_hiredate%></td>
+                      <td>
+                          <a href="/staff/show/<%=data[i].id%>"><i data-feather="eye"></i></a>
+                          <a href="/staff/edit/<%=data[i].id%>"><i data-feather="edit-2"></i></a>
+                          <a href="/staff/delete/<%=data[i].id%>"><i data-feather="trash-2"></i></a>
+                      </td>
+                  </tr>
+                  <% }
+
+                  }else{ %>
+                  <tr>
+                      <td colspan="3">No user</td>
+                  </tr>
+                <% } %>
+              </tbody>
+            </table>
+          </div>
+        </main>
+      </div>
+    </div>
+
+<%- include ../inc/footer.ejs %>

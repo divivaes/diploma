@@ -1,0 +1,48 @@
+<%- include inc/header.ejs %>
+
+<%- include inc/menu.ejs %>
+
+
+    <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4" style="margin-bottom: 40px;">
+      <h2><%= title %></h2>
+      <div class="row policies">
+        <div class="col-md-4 policybox">
+            <img class="rounded-circle policy-image" src="/images/kasko.svg" width="120" height="120">
+            <div class="policy_name">
+                <h3>Каско</h3>
+            </div>
+            <div class="policy-info">
+                <p><a class="btn btn-secondary btn-policy" href="/insurance/kasko" role="button">Посмотреть</a></p>
+            </div>
+        </div>
+        <div class="col-md-4 policybox">
+            <img class="rounded-circle policy-image" src="/images/tourism.svg" width="120" height="120">
+            <div class="policy_name">
+                <h3>Туризм</h3>
+            </div>
+            <div class="policy-info">
+                <p><a class="btn btn-secondary btn-policy" href="/insurance/tourism" role="button">Посмотреть</a></p>
+            </div>
+        </div>
+        <div class="col-md-4 policybox">
+            <img class="rounded-circle policy-image" src="/images/goods.svg" width="120" height="120">
+            <div class="policy_name">
+                <h3>Недвижимость</h3>
+            </div>
+            <div class="policy-info">
+                <p><a class="btn btn-secondary btn-policy" href="/insurance/goods" role="button">Посмотреть</a></p>
+            </div>
+        </div>
+        <div class="col-md-4 policybox">
+            <img class="rounded-circle policy-image" src="/images/accident.svg" width="120" height="120">
+            <div class="policy_name">
+                <h3>Несчастный случай</h3>
+            </div>
+            <div class="policy-info">
+                <p><a class="btn btn-secondary btn-policy" href="/insurance/accident" role="button">Посмотреть</a></p>
+            </div>
+        </div>
+      </div>
+    </main>
+
+<%- include inc/footer.ejs %>

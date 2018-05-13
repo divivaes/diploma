@@ -1,0 +1,88 @@
+body {
+    background: #eee;
+    padding-top: 80px;
+}
+
+.login-container {
+    width: 500px;
+    background: #fff;
+    margin: 0 auto;
+    color: #333;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.01), 0 3px 6px rgba(0, 0, 0, 0.15);
+}
+
+.login-header {
+    background: #1F2041;
+    padding: 20px 50px;
+    color: #FFF;
+    position: relative;
+    text-align: center;
+}
+
+.is-logo {
+    width: 46px;
+}
+
+.logo {
+    display: block;
+    width: 95px;
+    margin: 0 auto 20px auto;
+}
+
+.login-header span {
+    font-size: 25px;
+    position: relative;
+    top: 3px;
+}
+
+.login-header p {
+    font-size: 15px;
+    position: relative;
+    left: 0px;
+}
+
+.login-body {
+    padding: 40px 50px 50px 50px;
+}
+
+.login-body .form-group {
+    margin-top: 20px;
+}
+
+.login-body .form-group label {
+    font-size: 14px;
+}
+
+.login-body input {
+    display: block;
+    width: 100%;
+    margin-top: 5px;
+    padding: 8px 10px;
+    color: #333;
+    border-radius: 0;
+    font-size: 16px;
+    outline: 0 !important;
+}
+
+.login-body input:focus,
+.login-container input:active {
+    outline: 0 !important
+}
+
+.btn-login {
+    background: #fbb700;
+    border-radius: 25px;
+    margin-top: 30px;
+    padding: 10px 30px;
+    border: none;
+    color: #FFF;
+    font-size: 18px;
+    font-weight: bold;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+    /*ouline: none !important;*/
+}
+
+.btn-login:active,
+.btn-login:focus {
+    ouline: none !important;
+}

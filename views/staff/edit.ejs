@@ -1,0 +1,94 @@
+<%- include ../inc/header.ejs %>
+<%- include ../inc/menu.ejs %>
+
+
+<main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4" style="margin-bottom: 40px;">
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="/home">Главная страница</a></li>
+    <li class="breadcrumb-item"><a href="/staff">Все менеджеры</a></li>
+    <li class="breadcrumb-item active" aria-current="page"><%= title %></li>
+  </ol>
+</nav> 
+<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xs-offset-0 col-sm-offset-0 col-md-offset-3 col-lg-offset-3 toppad" >
+
+
+    <div class="panel panel-info">
+      <div class="panel-heading">
+        <h3 class="panel-title"><%= title %> &ndash; <%= staff[0].m_fullname %></h3>
+      </div>
+      <div class="panel-body">
+        <div class="row">
+          <div class=" col-md-12 col-lg-12 ">
+            <form action="/staff/save/<%=staff[0].id%>" method="post">
+              <table class="table table-user-information">
+                <input type="hidden" value="<%= staff[0].m_login %>" name="m_login">
+                <input type="hidden" value="<%= staff[0].m_password %>" name="m_password">
+                <tbody>
+                  <tr>
+                    <td>Полное имя:</td>
+                    <td><input type="text" class="form-control" value="<%= staff[0].m_fullname %>" name="m_fullname"></td>
+                  </tr>
+                  <tr>
+                    <td>Роль:</td>
+                    <td><%= staff[0].r_rolename %></td>
+                  </tr>
+                  <tr>
+                    <td>Должность:</td>
+                    <td><input type="text" class="form-control" name="m_title" value="<%= staff[0].m_title %>"></td>
+                  </tr>
+                  <tr>
+                    <td>Дата рождения:</td>
+                    <td><input data-provide="datepicker" class="form-control" name="m_birthdate" value="<%= staff[0].m_birthdate %>"></td>
+                  </tr>
+                  <tr>
+                    <td>Телефон:</td>
+                    <td><input type="text" class="form-control" id="m_phone" name="m_phone" value="<%= staff[0].m_phone %>"></td>
+                  </tr>
+                  <tr>
+                    <td>Пол:</td>
+                    <td>
+                      <select class="form-control" name="m_gender">
+                        <%if(staff[0].m_gender == 'Male'){%>
+                          <option value="Male" selected="selected">Male</option>
+                          <option value="Female">Female</option>
+                        <%} else {%>
+                          <option value="Female" selected="selected">Female</option>
+                          <option value="Male">Male</option>
+                        <%} %>
+                      </select>
+                    </td>
+                  <tr>
+                    <td>Дата приема на работу</td>
+                    <td><input data-provide="datepicker" class="form-control" name="m_hiredate" value="<%= staff[0].m_hiredate %>"></td>
+                  </tr>
+                  <tr>
+                    <td>Корпоративная почта</td>
+                    <td><input type="email" class="form-control" name="m_email" value="<%= staff[0].m_email %>"></td>
+                  </tr>
+                  <tr>
+                    <td>Логин</td>
+                    <td><input type="text" class="form-control" name="m_login" value="<%= staff[0].m_login %>"></td>
+                  </tr>
+                  <tr>
+                    <td>Пароль</td>
+                    <td><input type="password" class="form-control" id="m_password" name="m_password" value="<%= staff[0].m_password %>"></td>
+                    <td><i onclick="showPassword()" data-feather="eye" style="color: #fbb700; width: 22px !important; height: 22px !important; cursor: pointer;"></i></td>
+                  </tr>
+
+                </tbody>
+              </table>
+               <a href="/staff" class="btn btn-back">К списку</a>
+               <a href="/staff/show/<%=staff[0].id%>" class="btn btn-back">К просмотру</a>
+              <input type="submit" class="btn btn-edit" value="Сохранить"></a>
+            </form>
+          </div>
+         
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<%- include ../inc/footer.ejs %>

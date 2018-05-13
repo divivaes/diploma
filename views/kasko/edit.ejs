@@ -1,0 +1,202 @@
+<%- include ../inc/header.ejs %>
+<%- include ../inc/menu.ejs %>
+
+
+<main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="/home">Главная страница</a></li>
+      <li class="breadcrumb-item"><a href="/policies">Полисы </a></li>
+      <li class="breadcrumb-item"><a href="/insurance/kasko">КАСКО</a></li>
+      <li class="breadcrumb-item"><a href="/insurance/kasko/clients">Список клиентов по КАСКО</a></li>
+      <li class="breadcrumb-item active" aria-current="page"><%= title %> - <%= data[0].client_fullname %></li>
+    </ol>
+  </nav>
+<div class="col-xs-12 col-sm-12 col-md-10 col-lg-10 col-xs-offset-0 col-sm-offset-0 col-md-offset-3 col-lg-offset-3 toppad" >
+    <div class="panel panel-info">
+      <div class="panel-heading">
+        <h3 class="panel-title"><%= title %> - <%= data[0].client_fullname %></h3>
+      </div>
+      <div class="panel-body">
+        <div class="row">
+          <div class=" col-md-12 col-lg-12">
+            <form action="/insurance/kasko/client/update/<%= data[0].id %>" method="post" class="type-form">
+              <table class="table table-user-information">
+                <tbody>
+                  <tr>
+                    <td>ФИО клиента:</td>
+                    <td><input type="text" class="form-control" placeholder="" name="client_fullname" value="<%= data[0].client_fullname %>"></td>
+                  </tr>
+                  <tr>
+                    <td>Адрес:</td>
+                    <td><textarea class="form-control" placeholder="" name="client_address"><%= data[0].client_address %></textarea></td>
+                  </tr>
+                  <tr>
+                    <td>Телефон:</td>
+                    <td><input type="text" class="form-control" placeholder="" name="client_phone" value="<%= data[0].client_phone %>"></td>
+                  </tr>
+                  <tr>
+                    <td>Электронная почта:</td>
+                    <td><input type="email" class="form-control" placeholder="" name="client_email" value="<%= data[0].client_email %>"></td>
+                  </tr>
+                  <tr>
+                    <td>ИИН:</td>
+                    <td><input type="text" class="form-control driver_iin iin iin1" placeholder="" name="driver_iin" value="<%= data[0].driver_iin %>"><br><div class="info_driver" style="font-size:15px;color:rgba(115, 127, 173, 0.77);"></div></td>
+                  </tr>
+                  <tr>
+                    <td>Город</td>
+                    <td>
+                      <select name="client_city" class="form-control" id="">
+                        <option value="">Укажите город</option>
+                        <option value="Актау">Актау</option>
+                        <option value="Актобе">Актобе</option>
+                        <option value="Алматы">Алматы</option>
+                        <option value="Астана">Астана</option>
+                        <option value="Атырау">Атырау</option>
+                        <option value="Жезказган">Жезказган</option>
+                        <option value="Караганда">Караганда</option>
+                        <option value="Кокшетау">Кокшетау</option>
+                        <option value="Костанай">Костанай</option>
+                        <option value="Кызылорда">Кызылорда</option>
+                        <option value="Павлодар">Павлодар</option>
+                        <option value="Петропавловск">Петропавловск</option>
+                        <option value="Семей">Семей</option>
+                        <option value="Талдыкорган">Талдыкорган</option>
+                        <option value="Тараз">Тараз</option>
+                        <option value="Уральск">Уральск</option>
+                        <option value="Усть-Каменогорск">Усть-Каменогорск</option>
+                        <option value="Шымкент">Шымкент</option>
+                      </select>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Стаж вождения</td>
+                    <td>
+                      <select name="driver_experience" id="" class="form-control stazh1">
+                        <%if(data[0].driver_experience == '2 года и более'){%>
+                          <option value="0" selected="selected">2 года и более</option>
+                          <option value="1">Менее 2 лет</option>
+                        <%} else {%>
+                        <option value="1" selected="selected">Менее 2 лет</option>
+                        <option value="0">2 года и более</option>
+                        <%} %>
+                      </select>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Возраст застрахованного</td>
+                    <td>
+                      <select name="driver_age" id="" class="form-control age1">
+                        <%if(data[0].driver_age == '25 лет и старше'){%>
+                          <option value="0" selected="selected">25 лет и старше</option>
+                          <option value="1">Менее 25 лет</option>
+                        <%} else {%>
+                          =<option value="1" selected="selected">Менее 25 лет</option>
+                          <option value="0">25 лет и старше</option>
+                        <%} %>
+                      </select>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Тип ТС</td>
+                    <td>
+                      <select name="car_type" id="" class="form-control type1">
+                        <option value="">Выберите тип ТС</option>
+                        <option value="0">Легковой автомобиль</option>
+                        <option value="1">Автобусы до 16 мест</option>
+                        <option value="2">Автобусы более 16 мест</option>
+                        <option value="3">Грузовые</option>
+                        <option value="4">Троллейбусы, трамваи</option>
+                        <option value="5">Мототранспорт</option>
+                        <option value="6">Прицепы (полуприцепы)</option>
+                      </select>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Город регистрации ТС</td>
+                    <td>
+                      <select name="car_city" id="" class="form-control reg1 ter">
+                        <option value="">Выберите город</option>
+                        <option value="2">Алматы</option>
+                        <option value="1">Астана</option>
+                        <option value="5">Алматинская область</option>
+                        <option value="13">Южно-Казахстанская область</option>
+                        <option value="16">Восточно-Казахстанская область</option>
+                        <option value="10">Костанайская область</option>
+                        <option value="9">Карагандинская область</option>
+                        <option value="15">Северо-Казахстанская область</option>
+                        <option value="3">Акмолинская область</option>
+                        <option value="14">Павлодарская область</option>
+                        <option value="8">Жамбылская область</option>
+                        <option value="4">Актюбинская область</option>
+                        <option value="7">Западно-Казахстанская область</option>
+                        <option value="11">Кызылординская область</option>
+                        <option value="6">Атырауская область</option>
+                        <option value="12">Мангистауская область</option>
+                        <option value="17">Временный вьезд</option>
+                      </select>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Год выпуска ТС</td>
+                    <td>
+                      <select name="car_year" id="" class="form-control srok1">
+                        <%if(data[0].car_year == 0){%>
+                          <option value="0" selected>до 7 лет</option>
+                          <option value="1">более 7 лет</option>
+                        <%} else {%>
+                          <option value="1" selected>более 7 лет</option>
+                          <option value="0">до 7 лет</option>
+                        <%} %>
+                      </select>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Гос.номер ТС:</td>
+                    <td><input type="text" name="car_number" class="form-control" value="<%= data[0].car_number %>"></td>
+                  </tr>
+                  <tr>
+                    <td>Номер кузова (VIN):</td>
+                    <td><input type="text" name="car_vin" class="form-control" value="<%= data[0].car_vin %>"></td>
+                  </tr>
+                  <tr>
+                    <td>Способ оплаты</td>
+                    <td>
+                      <select name="payment_type" id="" class="form-control">
+                        <%if(data[0].payment_type == 'В офисе'){%>
+                          <option value="Оформить в офисе" selected>Оформить в офисе</option>
+                          <option value="Наличными при получении курьеру">Наличными при получении курьеру</option>
+                        <%} else {%>
+                          <option value="Наличными при получении курьеру" selected>Наличными при получении курьеру</option>
+                          <option value="Оформить в офисе">Оформить в офисе</option>
+                        <%} %>
+                      </select>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="form-group">
+                        <button type="button" class="form-control btn btn-add" name="calc">Рассчитать</button>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Сумма страхования</td>
+                    <td><input type="text" name="ins_price" class="form-control" value="<%= data[0].ins_price %>"></td>
+                  </tr>
+
+                </tbody>
+              </table>
+               <a href="/staff" class="btn btn-back">К списку</a>
+              <input type="submit" class="btn btn-add" value="Сохранить"></a>
+            </form>
+          </div>
+         
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<%- include ../inc/footer.ejs %>

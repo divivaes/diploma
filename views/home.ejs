@@ -1,0 +1,38 @@
+<%- include inc/header.ejs %>
+
+<%- include inc/menu.ejs %>
+
+
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+          <h2><%= title %></h2>
+          <div class="container">
+				<% if(data.length){
+console.log(userId);
+                  for(var i = 0;i < data.length;i++) { %>
+	          		<div class="col-md-12">
+		      			<div class="announcement-block-home">
+			          		<h3><%= data[i].title %></h3>
+						    <p><%= data[i].body %></p>
+						    <div class="announcement-actions">
+						    	<div class="announcement-date">
+						    		<span class="badge badge-dark">Добавлено <%= data[i].created_at %></span>	
+						    	</div>
+								<div class="announcement-tag">
+									<span class="badge badge-<%if(data[i].tag == 'Новость'){%>primary<%} else if (data[i].tag == 'Срочно'){%>danger<%} else if (data[i].tag == 'Рассмотреть'){%>warning<%} else if (data[i].tag == 'Праздник'){%>success<%} else if(data[i].tag == 'Объявление') {%>info<%}%>"><%= data[i].tag %></span>
+								</div>
+						     </div>
+			      		</div>
+	        		</div>
+	        		<% }
+
+                  }else{ %>
+                  	<div class="col-md-12">
+                  		<div class="announcement-block">
+                  			<h2>Не найдено анонсов</h2>
+                  		</div>
+                  	</div>
+                <% } %>
+			</div>
+        </main>
+
+<%- include inc/footer.ejs %>

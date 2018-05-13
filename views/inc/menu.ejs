@@ -1,0 +1,79 @@
+<body>
+  <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0">
+    <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="/home">СМ Системс</a>
+    <ul class="navbar-nav px-3">
+      <li class="nav-item text-nowrap">
+        <a class="nav-link" href="/logout">Завершить работу</a>
+      </li>
+    </ul>
+  </nav>
+
+  <div class="container-fluid">
+    <div class="row">
+      <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+        <div class="sidebar-sticky">
+          <ul class="nav flex-column">
+            <li class="nav-item">
+              <a class="nav-link <%if(url=="home"){%>active<%} %>"  href="/home">
+                <span data-feather="home"></span>
+                Главная страница <span class="sr-only"><%if(url=="home"){%>current<%} %></span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link <%if(url=="policies"){%>active<%} %>"  href="/policies">
+                <span data-feather="folder"></span>
+                Полисы <span class="sr-only"><%if(url=="policies"){%>current<%} %></span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link <%if(url=="search"){%>active<%} %>"  href="/search">
+                <span data-feather="database"></span>
+                Поиск по базе <span class="sr-only"><%if(url=="search"){%>current<%} %></span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link <%if(url=="web"){%>active<%} %>"  href="/web">
+                <span data-feather="file-text"></span>
+                Работа с клиентами <span class="sr-only"><%if(url=="web"){%>current<%} %></span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link <%if(url=="profile"){%>active<%} %>"  href="/profile">
+                <span data-feather="user"></span>
+                Профиль <span class="sr-only"><%if(url=="profile"){%>current<%} %></span>
+              </a>
+            </li>
+          </ul>
+          <%if(userId == 1) {%>
+          <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+            <span>Доп. функции</span>
+           </h6>
+           <ul class="nav flex-column mb-2">
+             <li class="nav-item">
+               <a class="nav-link <%if(url=="staff"){%>active<%} %>"  href="/staff">
+                 <span data-feather="list"></span>
+                   Все менеджеры <span class="sr-only"></span>
+               </a>
+             </li>
+             <li class="nav-item">
+               <a class="nav-link <%if(url=="statistics"){%>active<%} %>"  href="/statistics">
+                 <span data-feather="bar-chart-2"></span>
+                   Вся статистика <span class="sr-only"></span>
+               </a>
+             </li>
+             <li class="nav-item">
+               <a class="nav-link <%if(url=="clients"){%>active<%} %>"  href="/clients">
+                 <span data-feather="users"></span>
+                   Клиентская база <span class="sr-only"></span>
+               </a>
+             </li>
+             <li class="nav-item">
+               <a class="nav-link <%if(url=="announcements"){%>active<%} %>" href="/announcements">
+                 <span data-feather="flag"></span>
+                 Анонсы <span class="sr-only"></span>
+               </a>
+             </li>
+           </ul>
+           <%}%>
+        </div>
+      </nav>

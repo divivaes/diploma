@@ -1,0 +1,74 @@
+<%- include inc/header.ejs %>
+
+<%- include inc/menu.ejs %>
+    
+    <script>
+        window.onload = function () {
+            CanvasJS.addColorSet("InsuranceSystems",
+                    [
+                        "#E4394B",
+                        "#A3D8E7",
+                        "#C70E59",
+                        "#00B4C4",
+                        "#98134B",
+                        "#007C97",
+                        "#53163E",
+                        "#05506F",
+                        "#3C1621",
+                        "#1E2A41",
+                        "#EDEDED",
+                        "#5C7A82"
+                    ]);
+
+            var insuranceDataChart = [
+                {
+                    label: "КАСКО ", y : 10
+                },
+                {
+                    label: "Несчастный случай", y : 5
+                },
+                {
+                    label: "Туризм ", y : 15
+                },
+                {
+                    label: "Медицинское страхование ", y : 11
+                },
+                {
+                    label: "Недвижимость ", y : 20
+                },
+                {
+                    label: "страхование жизни ", y : 7
+                }
+            ];
+
+            var insuranceTypeChart = new CanvasJS.Chart("insuranceContainter", {
+                colorSet: "InsuranceSystems",
+                animationEnabled: true,
+                verticalAlign: "center",
+                title: {
+                    text: "Cтатистика оформленных заявок по типам страховки",
+                    fontSize: 25
+                },
+                data: [
+                    {
+                        // Change type to "doughnut", "line", "splineArea", etc.
+                        type: "pie",
+                        dataPoints: insuranceDataChart,
+                        indexLabel: "{label} - {y}",
+                        indexLabelFontSize: 14
+                    }
+                ]
+            });
+
+            insuranceTypeChart.render();
+        }
+    </script>    
+    <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+      <h2><%= title %></h2>
+      <div class="row statistics">
+        <div class="" id="insuranceContainter"></div>
+      </div>
+    </main>
+
+
+<%- include inc/footer.ejs %>

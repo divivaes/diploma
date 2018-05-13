@@ -1,0 +1,82 @@
+<%- include ../inc/header.ejs %>
+<%- include ../inc/menu.ejs %>
+
+
+<main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4" style="margin-bottom: 40px;">
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="/home">Главная страница</a></li>
+    <li class="breadcrumb-item"><a href="/staff">Все менеджеры</a></li>
+    <li class="breadcrumb-item active" aria-current="page"><%= title %></li>
+  </ol>
+</nav> 
+<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xs-offset-0 col-sm-offset-0 col-md-offset-3 col-lg-offset-3 toppad" >
+    <div class="panel panel-info">
+      <div class="panel-heading">
+        <h3 class="panel-title"><%= title %></h3>
+      </div>
+      <div class="panel-body">
+        <div class="row">
+          <div class=" col-md-12 col-lg-12">
+            <form action="/staff/add" method="post" class="staff-form">
+              <table class="table table-user-information">
+                <tbody>
+                  <tr>
+                    <td>Логин:</td>
+                    <td><input type="text" class="form-control" placeholder="Введите логин" name="m_login"></td>
+                  </tr>
+                  <tr>
+                    <td>Пароль:</td>
+                    <td><input type="text" class="form-control" placeholder="Введите пароль" name="m_password"></td>
+                  </tr>
+                  <tr>
+                    <td>Полное имя:</td>
+                    <td><input type="text" class="form-control" placeholder="Введите ФИО" name="m_fullname"></td>
+                  </tr>
+                  <tr>
+                    <td>Роль:</td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>Должность:</td>
+                    <td><input type="text" class="form-control" name="m_title" placeholder="Введите должность"></td>
+                  </tr>
+                  <tr>
+                    <td>Дата рождения:</td>
+                    <td><input data-provide="datepicker" class="form-control" name="m_birthdate"></td>
+                  </tr>
+                  <tr>
+                    <td>Телефон:</td>
+                    <td><input type="text" class="form-control" placeholder="Введите телефон" id="m_phone" name="m_phone"></td>
+                  </tr>
+                  <tr>
+                    <td>Пол:</td>
+                    <td>
+                      <select class="form-control" name="m_gender">
+                          <option value="Female">Female</option>
+                          <option value="Male">Male</option>
+                      </select>
+                    </td>
+                  <tr>
+                    <td>Дата приема на работу</td>
+                    <td><input data-provide="datepicker" class="form-control" name="m_hiredate"></td>
+                  </tr>
+                    <td>Корпоративная почта</td>
+                    <td><input type="email" class="form-control" name="m_email"></td>
+                  </tr>
+
+                </tbody>
+              </table>
+               <a href="/staff" class="btn btn-back">К списку</a>
+              <input type="submit" class="btn btn-add" value="Добавить"></a>
+            </form>
+          </div>
+         
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<%- include ../inc/footer.ejs %>

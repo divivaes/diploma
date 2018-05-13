@@ -1,0 +1,130 @@
+<%- include ../inc/header.ejs %>
+<%- include ../inc/menu.ejs %>
+
+
+<main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="/home">Главная страница</a></li>
+    <li class="breadcrumb-item"><a href="/policies">Полисы </a></li>
+    <li class="breadcrumb-item"><a href="/insurance/tourism">Туризм</a></li>
+    <li class="breadcrumb-item active" aria-current="page"><%= title %></li>
+  </ol>
+</nav>
+<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xs-offset-0 col-sm-offset-0 col-md-offset-3 col-lg-offset-3 toppad" >
+    <div class="panel panel-info">
+      <div class="panel-heading">
+        <h3 class="panel-title"><%= title %></h3>
+      </div>
+      <div class="panel-body">
+        <div class="row">
+          <div class=" col-md-12 col-lg-12">
+            <form action="/insurance/kasko/save" method="post" class="type-form">
+              <table class="table table-user-information">
+                <tbody>
+                  <tr>
+                    <td>ФИО клиента:</td>
+                    <td><input type="text" class="form-control" placeholder="" name="client_fullname"></td>
+                  </tr>
+                  <tr>
+                    <td>Адрес:</td>
+                    <td><textarea class="form-control" placeholder="" name="client_address"></textarea></td>
+                  </tr>
+                  <tr>
+                    <td>Телефон:</td>
+                    <td><input type="text" class="form-control phone" placeholder="" name="client_phone"></td>
+                  </tr>
+                  <tr>
+                    <td>Электронная почта:</td>
+                    <td><input type="email" class="form-control" placeholder="" name="client_email"></td>
+                  </tr>
+                  <tr>
+                    <td>Город</td>
+                    <td>
+                      <select name="client_city" class="form-control" id="">
+                        <option value="">Укажите город</option>
+                        <option value="Актау">Актау</option>
+                        <option value="Актобе">Актобе</option>
+                        <option value="Алматы">Алматы</option>
+                        <option value="Астана">Астана</option>
+                        <option value="Атырау">Атырау</option>
+                        <option value="Жезказган">Жезказган</option>
+                        <option value="Караганда">Караганда</option>
+                        <option value="Кокшетау">Кокшетау</option>
+                        <option value="Костанай">Костанай</option>
+                        <option value="Кызылорда">Кызылорда</option>
+                        <option value="Павлодар">Павлодар</option>
+                        <option value="Петропавловск">Петропавловск</option>
+                        <option value="Семей">Семей</option>
+                        <option value="Талдыкорган">Талдыкорган</option>
+                        <option value="Тараз">Тараз</option>
+                        <option value="Уральск">Уральск</option>
+                        <option value="Усть-Каменогорск">Усть-Каменогорск</option>
+                        <option value="Шымкент">Шымкент</option>
+                      </select>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Начало поездки:</td>
+                    <td><input data-provide="datepicker" class="form-control" name="start_date"></td>
+                  </tr>
+                  <tr>
+                    <td>Конец поездки:</td>
+                    <td><input data-provide="datepicker" class="form-control" name="end_date"></td>
+                  </tr>
+                  <tr>
+                    <td>Количество дней:</td>
+                    <td><input type="text" readonly="readonly" class="form-control" name="countday"></td>
+                  </tr>
+                  <tr>
+                    <td>Страхования cумма:</td>
+                    <td><select name="insurance_sum" class="form-control" id="">
+                      <option value="30000">30 000</option>
+                      <option value="60000">60 000</option>
+                    </select></td>
+                  </tr>
+                  <tr>
+                    <td>Валюта:</td>
+                    <td><select name="" class="form-control" id="">
+                      <option value="0">USD</option>
+                      <option value="1">EURO</option>
+                    </select></td>
+                  </tr>
+                  <tr>
+                    <td>Курс:</td>
+                    <td><input type="text" readonly="readonly" class="form-control" name="currency" value="327.97"></td>
+                  </tr>
+                  <tr>
+                    <td>Способ оплаты</td>
+                    <td>
+                      <select name="payment_type" id="" class="form-control">
+                        <option value="">Выберите из списка</option>
+                        <option value="Платежная карта">Платежной картой (VISA, MasterCard, American Express)</option>
+                        <option value="Наличными">Наличными при получении курьеру или в офисе</option>
+                      </select>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="form-group">
+                        <button type="button" class="form-control btn btn-add" name="calc">Рассчитать</button>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Сумма страхования</td>
+                    <td><input type="text" name="ins_price" class="form-control"></td>
+                  </tr>
+                </tbody>
+              </table>
+               <a href="/staff" class="btn btn-back">К списку</a>
+              <input type="submit" class="btn btn-add" value="Добавить"></a>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<%- include ../inc/footer.ejs %>
