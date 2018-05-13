@@ -1,5 +1,5 @@
 # diploma
-CRM System on nodejs
+Admin panel on nodejs
 
 to install all packages and dependencies 
 
