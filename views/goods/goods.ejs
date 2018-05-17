@@ -1,0 +1,33 @@
+<%- include ../inc/header.ejs %>
+
+<%- include ../inc/menu.ejs %>
+
+    <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="/home">Главная страница</a></li>
+          <li class="breadcrumb-item"><a href="/policies">Полисы </a></li>
+          <li class="breadcrumb-item active" aria-current="page"><%= title %></li>
+        </ol>
+      </nav>
+      <h2>Полис &ndash; <%= title %></h2>
+      <div class="row policy-type">
+        <div class="col-md-3 policy-kasko">
+            <img class="rounded-circle type-image" src="/images/edit.svg" width="120" height="120">
+
+            <div class="tool_info">
+                <p><a class="btn btn-secondary btn-policy" href="/insurance/goods/add" role="button">Добавить клиента </a></p>
+            </div>
+        </div>
+        <div class="col-md-3 policy-kasko">
+            <img class="rounded-circle type-image" src="/images/list.svg" width="120" height="120">
+
+            <div class="tool_info">
+                <p><a class="btn btn-secondary btn-policy" href="/insurance/goods/clients" role="button">Cписок клиентов </a></p>
+            </div>
+        </div>
+      </div>
+
+    </main>
+
+<%- include ../inc/footer.ejs %>

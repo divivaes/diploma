@@ -7,7 +7,7 @@
   <ol class="breadcrumb">
     <li class="breadcrumb-item"><a href="/home">Главная страница</a></li>
     <li class="breadcrumb-item"><a href="/policies">Полисы </a></li>
-    <li class="breadcrumb-item"><a href="/insurance/tourism">Туризм</a></li>
+    <li class="breadcrumb-item"><a href="/insurance/goods">Недвижимость</a></li>
     <li class="breadcrumb-item active" aria-current="page"><%= title %></li>
   </ol>
 </nav>
@@ -19,7 +19,7 @@
       <div class="panel-body">
         <div class="row">
           <div class=" col-md-12 col-lg-12">
-            <form action="/insurance/tourism/save" method="post" class="type-form">
+            <form action="/insurance/accident/save" method="post" class="type-form">
               <table class="table table-user-information">
                 <tbody>
                   <tr>
@@ -34,7 +34,7 @@
                     <td>Телефон:</td>
                     <td><input type="text" class="form-control phone" placeholder="" name="client_phone"></td>
                   </tr>
-                   <tr>
+                  <tr>
                     <td>ИИН:</td>
                     <td><input type="text" class="form-control" placeholder="" name="client_iin"></td>
                   </tr>
@@ -69,34 +69,35 @@
                     </td>
                   </tr>
                   <tr>
-                    <td>Начало поездки:</td>
-                    <td><input class="sc3 start_date form-control" name="sc3"></td>
+                    <td>Страховая сумма: </td>
+                    <td>
+                        <select class="form-control sc1" name="sc1" rel="1">
+                          <option value="100000" selected="selected">100 000</option>
+                          <option value="200000" >200 000</option>
+                          <option value="300000" >300 000</option>
+                          <option value="400000" >400 000</option>
+                          <option value="500000" >500 000</option>
+                      </select>
+                    </td>
                   </tr>
                   <tr>
-                    <td>Конец поездки:</td>
-                    <td><input class="sc4 end_date form-control" name="sc4"></td>
+                    <td>Территория страхования: </td>
+                    <td>
+                      <select class="form-control sc2" name="sc2" rel="1">
+                        <option value="0" selected="selected">Казахстан</option>
+                        <option value="1">СНГ</option>
+                        <option value="2">Весь мир</option>
+                      </select>
+                    </td>
                   </tr>
                   <tr>
-                    <td>Количество дней:</td>
-                    <td><input type="text" readonly="readonly" class="kold form-control" name="kold" style="cursor: pointer;"></td>
-                  </tr>
-                  <tr>
-                    <td>Страхования cумма:</td>
-                    <td><select name="sc1" class="sc1 form-control" id="">
-                      <option value="30000">30 000</option>
-                      <option value="60000">60 000</option>
-                    </select></td>
-                  </tr>
-                  <tr>
-                    <td>Валюта:</td>
-                    <td><select name="sc2" class="sc2 form-control" id="">
-                      <option value="0">USD</option>
-                      <!-- <option value="1">EURO</option> -->
-                    </select></td>
-                  </tr>
-                  <tr>
-                    <td>Курс:</td>
-                    <td><input type="text" readonly="readonly" class="curs form-control" name="curs" value="327.97" style="cursor: pointer;"></td>
+                    <td>Срок страхования :</td>
+                    <td>
+                      <select class="form-control sc3" name="sc3" rel="1">
+                        <option value="0" selected="selected">6 месяцев</option>
+                        <option value="1">1 год</option>
+                      </select>
+                    </td>
                   </tr>
                   <tr>
                     <td>Способ оплаты</td>
@@ -111,7 +112,7 @@
                   <tr>
                     <td>
                       <div class="form-group">
-                        <a href="javascript:calc()" class="form-control btn btn-add">Узнать стоимость</a>
+                        <a href="javascript:calcAccident()" class="form-control btn btn-add">Узнать стоимость</a>
                         <div class="result"> Стоимость полиса - 0 тг. </div>
                       </div>
                     </td>

@@ -33,7 +33,7 @@
                   <th>Адрес</th>
                   <th>Cумма страхования</th>
                   <th>Стоимость страхования</th>
-                  <th>Обслужил</th>
+                  <th>Статус</th>
                   <th>Действия</th>
                 </tr>
               </thead>
@@ -50,7 +50,7 @@
                       <td><%=data[i].client_address%></td>
                       <td><%=data[i].insurance_sum%></td>
                       <td><%=data[i].insurance_price%></td>
-                      <th><%=data[i].m_fullname%></th>
+                      <th><%if(data[i].status == 0){%> Новая заявка <%} else if (data[i].status == 1){%> В процессе <%} else if(data[i].status == 2){%> Завершен <%} %></th>
                       <td>
                           <a href="/insurance/tourism/client/show/<%=data[i].id%>"><i data-feather="eye"></i></a>
                           <a href="/insurance/tourism/client/edit/<%=data[i].id%>"><i data-feather="edit-2"></i></a>

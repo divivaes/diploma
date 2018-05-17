@@ -9,15 +9,15 @@
             <ol class="breadcrumb">
               <li class="breadcrumb-item"><a href="/home">Главная страница</a></li>
               <li class="breadcrumb-item"><a href="/policies">Полисы </a></li>
-              <li class="breadcrumb-item"><a href="/insurance/tourism">Туризм</a></li>
+              <li class="breadcrumb-item"><a href="/insurance/accident">Несчастный случай</a></li>
               <li class="breadcrumb-item active" aria-current="page"><%= title %></li>
             </ol>
           </nav>  
           <div class="staff-header">
             <h2><%= title %></h2> 
-            <a href="/insurance/tourism/add" class="btn btn-add">Добавить клиента</a>
+            <a href="/insurance/accident/add" class="btn btn-add">Добавить клиента</a>
           </div>
-          <form action="/insurance/tourism/clients/find" method="get">
+          <form action="/insurance/accident/clients/find" method="get">
             <input class="form-control form-control-dark" type="text" name="keyword" placeholder="Введите ФИО, ИИН, телефон ..." aria-label="Search">
           </form>
           <div class="container">
@@ -45,32 +45,28 @@
                                     <th>Телефон</th>
                                     <th>Город</th>
                                     <th>Адрес</th>
-                                    <th>Cумма страхования</th>
-                                    <th>Валюта</th>
                                     <th>Стоимость страхования</th>
                                     <th>Статус</th>
                                     <th>Действия</th>
                                   </tr>
                                 </thead>
                                 <tbody>
-                                  <% if(t_new.length){
+                                  <% if(a_new.length){
 
-                                    for(var i = 0;i < t_new.length;i++) { %>
+                                    for(var i = 0;i < a_new.length;i++) { %>
 
                                     <tr>
                                         <td><%=i+1%></td>
-                                        <td><%=t_new[i].client_fullname%></td>
-                                        <td><%=t_new[i].client_phone%></td>
-                                        <td><%=t_new[i].client_city%></td>
-                                        <td><%=t_new[i].client_address%></td>
-                                        <td><%=t_new[i].insurance_sum%></td>
-                                        <td><%if(t_new[i].currency == 0){%> USD <%} else if (t_new[i].currency == 1){%> EURO <%}  %></td>
-                                        <td><%=t_new[i].insurance_price%></td>
-                                        <th><%if(t_new[i].status == 0){%> Новая заявка <%} else if (t_new[i].status == 1){%> В процессе <%} else if(t_new[i].status == 2){%> Завершен <%} %></th>
+                                        <td><%=a_new[i].client_fullname%></td>
+                                        <td><%=a_new[i].client_phone%></td>
+                                        <td><%=a_new[i].client_city%></td>
+                                        <td><%=a_new[i].client_address%></td>
+                                        <td><%=a_new[i].insurance_price%></td>
+                                        <th><%if(a_new[i].status == 0){%> Новая заявка <%} else if (a_new[i].status == 1){%> В процессе <%} else if(a_new[i].status == 2){%> Завершен <%} %></th>
                                         <td>
-                                            <a href="/insurance/tourism/client/show/<%=t_new[i].id%>"><i data-feather="eye"></i></a>
-                                            <a href="/insurance/tourism/client/edit/<%=t_new[i].id%>"><i data-feather="arrow-right-circle"></i></a>
-                                            <a href="/insurance/tourism/client/delete/<%=t_new[i].id%>"><i data-feather="trash-2"></i></a>
+                                            <a href="/insurance/accident/client/show/<%=a_new[i].id%>"><i data-feather="eye"></i></a>
+                                            <a href="/insurance/accident/client/edit/<%=a_new[i].id%>"><i data-feather="arrow-right-circle"></i></a>
+                                            <a href="/insurance/accident/client/delete/<%=a_new[i].id%>"><i data-feather="trash-2"></i></a>
                                         </td>
                                     </tr>
                                     <% }
@@ -95,39 +91,35 @@
                                     <th>Телефон</th>
                                     <th>Город</th>
                                     <th>Адрес</th>
-                                    <th>Cумма страхования</th>
-                                    <th>Валюта</th>
                                     <th>Стоимость страхования</th>
                                     <th>Статус</th>
                                     <th>Действия</th>
                                   </tr>
                                 </thead>
                                 <tbody>
-                                  <% if(t_in_process.length){
+                                  <% if(a_in_process.length){
 
-                                    for(var i = 0;i < t_in_process.length;i++) { %>
+                                    for(var i = 0;i < a_in_process.length;i++) { %>
 
                                     <tr>
                                         <td><%=i+1%></td>
-                                        <td><%=t_in_process[i].client_fullname%></td>
-                                        <td><%=t_in_process[i].client_phone%></td>
-                                        <td><%=t_in_process[i].client_city%></td>
-                                        <td><%=t_in_process[i].client_address%></td>
-                                        <td><%=t_in_process[i].insurance_sum%></td>
-                                        <td><%if(t_in_process[i].currency == 0){%> USD <%} else if (t_in_process[i].currency == 1){%> EURO <%}  %></td>
-                                        <td><%=t_in_process[i].insurance_price%></td>
-                                        <th><%if(t_in_process[i].status == 0){%> Новая заявка <%} else if (t_in_process[i].status == 1){%> В процессе <%} else if(t_in_process[i].status == 2){%> Завершен <%} %></th>
+                                        <td><%=a_in_process[i].client_fullname%></td>
+                                        <td><%=a_in_process[i].client_phone%></td>
+                                        <td><%=a_in_process[i].client_city%></td>
+                                        <td><%=a_in_process[i].client_address%></td>
+                                        <td><%=a_in_process[i].insurance_price%></td>
+                                        <th><%if(a_in_process[i].status == 0){%> Новая заявка <%} else if (a_in_process[i].status == 1){%> В процессе <%} else if(a_in_process[i].status == 2){%> Завершен <%} %></th>
                                         <td>
-                                            <a href="/insurance/tourism/client/show/<%=t_in_process[i].id%>"><i data-feather="eye"></i></a>
-                                            <a href="/insurance/tourism/client/edit/<%=t_in_process[i].id%>"><i data-feather="arrow-right-circle"></i></a>
-                                            <a href="/insurance/tourism/client/delete/<%=t_in_process[i].id%>"><i data-feather="trash-2"></i></a>
+                                            <a href="/insurance/accident/client/show/<%=a_in_process[i].id%>"><i data-feather="eye"></i></a>
+                                            <a href="/insurance/accident/client/edit/<%=a_in_process[i].id%>"><i data-feather="arrow-right-circle"></i></a>
+                                            <a href="/insurance/accident/client/delete/<%=a_in_process[i].id%>"><i data-feather="trash-2"></i></a>
                                         </td>
                                     </tr>
                                     <% }
 
                                     }else{ %>
                                     <tr>
-                                        <td colspan="3">No data</td>
+                                        <td colspan="3">Не найдено заявок в процессе</td>
                                     </tr>
                                   <% } %>
                                 </tbody>
@@ -144,39 +136,35 @@
                                     <th>Телефон</th>
                                     <th>Город</th>
                                     <th>Адрес</th>
-                                    <th>Cумма страхования</th>
-                                    <th>Валюта</th>
                                     <th>Стоимость страхования</th>
                                     <th>Статус</th>
                                     <th>Действия</th>
                                   </tr>
                                 </thead>
                                 <tbody>
-                                  <% if(t_finished.length){
+                                  <% if(a_finished.length){
 
-                                    for(var i = 0;i < t_finished.length;i++) { %>
+                                    for(var i = 0;i < a_finished.length;i++) { %>
 
                                     <tr>
                                         <td><%=i+1%></td>
-                                        <td><%=t_finished[i].client_fullname%></td>
-                                        <td><%=t_finished[i].client_phone%></td>
-                                        <td><%=t_finished[i].client_city%></td>
-                                        <td><%=t_finished[i].client_address%></td>
-                                        <td><%=t_finished[i].insurance_sum%></td>
-                                        <td><%if(t_finished[i].currency == 0){%> USD <%} else if (t_finished[i].currency == 1){%> EURO <%}  %></td>
-                                        <td><%=t_finished[i].insurance_price%></td>
-                                        <th><%if(t_finished[i].status == 0){%> Новая заявка <%} else if (t_finished[i].status == 1){%> В процессе <%} else if(t_finished[i].status == 2){%> Завершен <%} %></th>
+                                        <td><%=a_finished[i].client_fullname%></td>
+                                        <td><%=a_finished[i].client_phone%></td>
+                                        <td><%=a_finished[i].client_city%></td>
+                                        <td><%=a_finished[i].client_address%></td>
+                                        <td><%=a_finished[i].insurance_price%></td>
+                                        <th><%if(a_finished[i].status == 0){%> Новая заявка <%} else if (a_finished[i].status == 1){%> В процессе <%} else if(a_finished[i].status == 2){%> Завершен <%} %></th>
                                         <td>
-                                            <a href="/insurance/tourism/client/show/<%=t_finished[i].id%>"><i data-feather="eye"></i></a>
-                                            <a href="/insurance/tourism/client/edit/<%=t_finished[i].id%>"><i data-feather="edit-2"></i></a>
-                                            <a href="/insurance/tourism/client/delete/<%=t_finished[i].id%>"><i data-feather="trash-2"></i></a>
+                                            <a href="/insurance/accident/client/show/<%=a_finished[i].id%>"><i data-feather="eye"></i></a>
+                                            <a href="/insurance/accident/client/edit/<%=a_finished[i].id%>"><i data-feather="edit-2"></i></a>
+                                            <a href="/insurance/accident/client/delete/<%=a_finished[i].id%>"><i data-feather="trash-2"></i></a>
                                         </td>
                                     </tr>
                                     <% }
 
                                     }else{ %>
                                     <tr>
-                                        <td colspan="3">No data</td>
+                                        <td colspan="3">Не найдено завершенных заявок</td>
                                     </tr>
                                   <% } %>
                                 </tbody>

@@ -1,6 +1,5 @@
-<%- include inc/header.ejs %>
-
-<%- include inc/menu.ejs %>
+<%- include ../inc/header.ejs %>
+<%- include ../inc/menu.ejs %>
 
 
         <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
@@ -12,7 +11,6 @@
             </ol>
           </nav>
           <h2><%= title %></h2>
-          <input class="form-control form-control-dark" type="text" placeholder="Поиск по заявкам с контактных форм" aria-label="Search">
           <div class="table-responsive contact-form">
             <table class="table table-striped table-lg staff">
               <thead>
@@ -39,9 +37,8 @@
                       <td><%=data[i].f_phone%></td>
                       <td><%=data[i].f_message%></td>
                       <td><%if(data[i].f_status == 0){%>Новый<%} else {%>Завершен<%} %></td>
-                      <td><%=data[i].f_served_mid%></td>
+                      <td><%=data[i].m_fullname%></td>
                       <td>
-                          <a href="/insurance/forms/1/show/<%=data[i].id%>"><i data-feather="eye"></i></a>
                           <a href="/insurance/forms/1/edit/<%=data[i].id%>"><i data-feather="edit-2"></i></a>
                           <a href="/insurance/forms/1/delete/<%=data[i].id%>"><i data-feather="trash-2"></i></a>
                       </td>
@@ -60,4 +57,4 @@
       </div>
     </div>
 
-<%- include inc/footer.ejs %>
+<%- include ../inc/footer.ejs %>

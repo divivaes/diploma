@@ -1,0 +1,71 @@
+<%- include ../inc/header.ejs %>
+<%- include ../inc/menu.ejs %>
+
+
+<main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="/home">Главная страница</a></li>
+      <li class="breadcrumb-item"><a href="/web">Работа с клиентами </a></li>
+      <li class="breadcrumb-item"><a href="/insurance/forms/2">Запросы с формы по страховым случаям</a></li>
+      <li class="breadcrumb-item active" aria-current="page"><%= title %></li>
+    </ol>
+  </nav>
+<div class="col-xs-12 col-sm-12 col-md-10 col-lg-10 col-xs-offset-0 col-sm-offset-0 col-md-offset-3 col-lg-offset-3 toppad" >
+    <div class="panel panel-info">
+      <div class="panel-heading">
+        <h3 class="panel-title"><%= title %> - <%= data[0].f_name %></h3>
+      </div>
+      <div class="panel-body">
+        <div class="row">
+          <div class=" col-md-12 col-lg-12">
+              <form action="/insurance/forms/2/update/<%=data[0].id%>" method="post" class="type-form">
+              <table class="table table-user-information">
+                <tbody>
+                  <input type="hidden" value="<%= data[0].f_created_at %>" name="created_at">
+                  <tr>
+                    <td>ФИО:</td>
+                    <td><input type="text" class="form-control" placeholder="" name="f_name" value="<%= data[0].f_name %>"></td>
+                  </tr>
+                  <tr>
+                    <td>Телефон:</td>
+                    <td><input type="text" class="form-control phone" placeholder="" name="f_phone" value="<%=data[0].f_phone%>"></td>
+                  </tr>
+                  <tr>
+                    <td>Электронная почта:</td>
+                    <td><input type="email" class="form-control" placeholder="" name="f_email" value="<%= data[0].f_email %>"></td>
+                  </tr>
+                  <tr>
+                    <td>Сообщение:</td>
+                    <td><textarea class="form-control" placeholder="" name="f_message"><%= data[0].f_message %></textarea></td>
+                  </tr>
+                  <tr>
+                    <td>Статус заявки</td>
+                    <td>
+                      
+                        <%if(data[0].f_status == '0'){%>
+                          <select name="f_status" id="" class="form-control">
+                            <option value="0" selected>Установлен статус - Новая заявка</option>
+                            <option value="1">Установить статус - Завершен</option>
+                          </select>
+                        <%} else if(data[0].f_status == '1') {%>
+                          <p>Установлен статус - Завершен</p><p>Статус не выставляется</p>
+                        <%}  %>
+                      
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+               <a href="/insurance/forms/2" class="btn btn-back">К списку</a>
+              <input type="submit" class="btn btn-add" value="Редактировать"></a>
+            </form>
+          </div>
+         
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<%- include ../inc/footer.ejs %>

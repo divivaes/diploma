@@ -9,12 +9,12 @@
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a href="/home">Главная страница</a></li>
       <li class="breadcrumb-item"><a href="/policies">Полисы </a></li>
-      <li class="breadcrumb-item"><a href="/insurance/tourism">Туризм</a></li>
-      <li class="breadcrumb-item"><a href="/insurance/tourism/clients">Список клиентов по полису - Туризм</a></li>
+      <li class="breadcrumb-item"><a href="/insurance/goods">Недвижимость</a></li>
+      <li class="breadcrumb-item"><a href="/insurance/goods/clients">Список клиентов по полису - Недвижимость</a></li>
       <li class="breadcrumb-item active" aria-current="page">Просмотр клиента - <%= data[0].client_fullname %></li>
     </ol>
   </nav>  
-<div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 col-xs-offset-0 col-sm-offset-0 col-md-offset-3 col-lg-offset-3 toppad" >
+<div class="col-xs-12 col-sm-12 col-md-9 col-lg-9 col-xs-offset-0 col-sm-offset-0 col-md-offset-3 col-lg-offset-3 toppad" >
 
 
     <div class="panel panel-info">
@@ -39,32 +39,21 @@
                   <td><strong><%= data[0].client_phone %></strong></td>
                 </tr>
                 <tr>
-                  <td>ИИН клиента:</td>
-                  <td><strong><%= data[0].client_iin %></strong></td>
-                </tr>
-                <tr>
                   <td>Почта клиента: </td>
                   <td><strong><%= data[0].client_email %></strong></td>
                 </tr>
                 <tr>
+                  <td>Риски: </td>
+                  <td><strong><%= data[0].risk_type %></strong></td>
+                </tr>
+                <tr>
+                <tr>
+                  <td>Объект поездки: </td>
+                  <td><strong><%if(data[0].goods_type == 0){%> Квартира <%} else if (data[0].currency == 1){%> Частный дом <%}  %></strong></td>
+                </tr>
+                <tr>
                   <td>Сумма страхования: </td>
-                  <td><strong><%= data[0].insurance_sum %></strong></td>
-                </tr>
-                <tr>
-                  <td>Валюта :</td>
-                  <td><strong><%if(data[0].currency == 0){%> USD <%} else if (data[0].currency == 1){%> EURO <%}  %></strong></td>
-                </tr>
-                <tr>
-                  <td>Начало поездки: </td>
-                  <td><strong><%= data[0].start_date %></strong></td>
-                </tr>
-                <tr>
-                  <td>Конец поездки: </td>
-                  <td><strong><%= data[0].end_date %></strong></td>
-                </tr>
-                <tr>
-                  <td>Количество дней: </td>
-                  <td><strong><%= data[0].days %></strong></td>
+                  <td><strong><%= data[0].given_sum %></strong></td>
                 </tr>
                 <tr>
                   <td>Стоимость страхования:</td>
@@ -84,8 +73,8 @@
                 </tr>
               </tbody>
             </table>
-            <a href="/insurance/tourism/clients" class="btn btn-back">Обратно к списку </a>
-            <a href="/insurance/tourism/client/edit/<%=data[0].id%>" class="btn btn-edit">Редактировать</a>
+            <a href="/insurance/goods/clients" class="btn btn-back">Обратно к списку </a>
+            <a href="/insurance/goods/client/edit/<%=data[0].id%>" class="btn btn-edit">Редактировать</a>
           </div>
         </div>
       </div>

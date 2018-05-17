@@ -110,7 +110,8 @@ router.post('/insurance/news/add', isLoggedIn, function(req, res, next) {
       n_title                : input.n_title,
       n_body                 : input.n_body,
       n_date                 : newsDate,
-      n_mgid                 : manager_id
+      n_mgid                 : manager_id,
+      n_image_path           : input.image_file
   };
   console.log('Data appearance => ' + data);
   connection.query("INSERT INTO ic_news SET ? ", data, function (err, rows) {
@@ -223,16 +224,18 @@ router.get('/insurance/kasko', isLoggedIn, function (req, res, next) {
   });
 });
 
+// Contact Form 
+
 router.get('/insurance/forms/1', isLoggedIn, function (req, res, next) {
 
-  var forms_request = 'SELECT * FROM ic_form_requests WHERE f_form_type = "1" ';
+  var forms_request = 'SELECT i.id, i.f_name, i.f_email, i.f_phone, i.f_message, i.f_status, i.f_form_type, m.id as man_id, m.m_fullname, m.m_title FROM ic_form_requests i INNER JOIN ic_managers m ON i.f_served_mid = m.id WHERE f_form_type = "1" ';
 
   connection.query(forms_request, function (err, rows) {
     // console.log(rows);
     if (err) {
       console.log("Error selecting : %s", err);
     } else {
-      res.render('contact-form', {
+      res.render('./contact-form/contact-form', {
         title: 'Запросы с контактной формы',
         data: rows,
         url: 'insurance/forms/1',
@@ -242,16 +245,87 @@ router.get('/insurance/forms/1', isLoggedIn, function (req, res, next) {
  });
 });
 
+router.get('/insurance/forms/1/edit/:id', isLoggedIn, function(req, res, next) {
+
+  var id = req.params.id;
+  var forms_request = 'SELECT * FROM ic_form_requests WHERE id = ' + id + ' ';
+
+  connection.query(forms_request, function(err, rows) {
+    if (err) {
+      console.log("Error selecting :%s", err);
+    } else {
+      res.render('./contact-form/edit', {
+        title: 'Редактирование заявки',
+        data: rows,
+        url: 'insurance/forms/1/edit/' + id,
+        userId: req.user.id
+      })
+    }
+  });
+
+});
+
+router.post('/insurance/forms/1/update/:id', isLoggedIn, function(req, res, next) {
+
+  var id = req.params.id;
+  var input = JSON.parse(JSON.stringify(req.body));
+  var manager_id = req.user.id;
+  var currentTime = new Date().toLocaleTimeString();
+  var currentDate = new Date().toLocaleDateString();
+  var updatedDate = currentTime + ' ' + currentDate;
+  var data = {
+    f_name                 : input.f_name,
+    f_email                : input.f_email,
+    f_phone                : input.f_phone,
+    f_message              : input.f_message,
+    f_status               : input.f_status,
+    f_form_type            : 1,
+    f_served_mid           : manager_id,
+    f_created_at           : input.created_at,
+    f_updated_at           : updatedDate
+  };
+
+  connection.query("UPDATE ic_form_requests SET ? WHERE id = ? ",[data,id], function(err, rows){
+    if (err) {
+        console.log("Error updating: %s ", err);
+    } else {
+        req.flash('success', 'Данные успешно изменены');
+        res.redirect('/insurance/forms/1');
+    }
+  });
+
+
+});
+
+router.get('/insurance/forms/1/delete/:id', isLoggedIn, function(req, res, next) {
+
+  var id = req.params.id;
+  var forms_request = 'DELETE FROM ic_form_requests WHERE id = ' + id + ' ';
+
+  connection.query(forms_request, function(err, rows) {
+    if (err) {
+      console.log("Error deleting :%s", err);
+    } else {
+      req.flash('success', 'Запрос успешно удален');
+      res.redirect('/insurance/forms/1');
+    }
+  });
+});
+
+
+
+// Insurance Case Form 
+
 router.get('/insurance/forms/2', isLoggedIn, function (req, res, next) {
 
-  var forms_request = 'SELECT * FROM ic_form_requests WHERE f_form_type = "2" ';
+  var forms_request = 'SELECT i.id, i.f_name, i.f_email, i.f_phone, i.f_message, i.f_status, i.f_form_type, m.id as man_id, m.m_fullname, m.m_title FROM ic_form_requests i INNER JOIN ic_managers m ON i.f_served_mid = m.id WHERE f_form_type = "2" ';
 
   connection.query(forms_request, function (err, rows) {
     // console.log(rows);
     if (err) {
       console.log("Error selecting : %s", err);
     } else {
-      res.render('case-form', {
+      res.render('./case-form/case-form', {
         title: 'Запросы с формы по страховым случаям',
         data: rows,
         url: 'insurance/forms/2',
@@ -259,6 +333,73 @@ router.get('/insurance/forms/2', isLoggedIn, function (req, res, next) {
     });
   }
  });
+});
+
+router.get('/insurance/forms/2/edit/:id', isLoggedIn, function(req, res, next) {
+
+  var id = req.params.id;
+  var forms_request = 'SELECT * FROM ic_form_requests WHERE id = ' + id + ' ';
+
+  connection.query(forms_request, function(err, rows) {
+    if (err) {
+      console.log("Error selecting :%s", err);
+    } else {
+      res.render('./case-form/edit', {
+        title: 'Редактирование заявки',
+        data: rows,
+        url: 'insurance/forms/2/edit/' + id,
+        userId: req.user.id
+      })
+    }
+  });
+
+});
+
+router.post('/insurance/forms/2/update/:id', isLoggedIn, function(req, res, next) {
+
+  var id = req.params.id;
+  var input = JSON.parse(JSON.stringify(req.body));
+  var manager_id = req.user.id;
+  var currentTime = new Date().toLocaleTimeString();
+  var currentDate = new Date().toLocaleDateString();
+  var updatedDate = currentTime + ' ' + currentDate;
+  var data = {
+    f_name                 : input.f_name,
+    f_email                : input.f_email,
+    f_phone                : input.f_phone,
+    f_message              : input.f_message,
+    f_status               : input.f_status,
+    f_form_type            : 2,
+    f_served_mid           : manager_id,
+    f_created_at           : input.created_at,
+    f_updated_at           : updatedDate
+  };
+
+  connection.query("UPDATE ic_form_requests SET ? WHERE id = ? ",[data,id], function(err, rows){
+    if (err) {
+        console.log("Error updating: %s ", err);
+    } else {
+        req.flash('success', 'Данные успешно изменены');
+        res.redirect('/insurance/forms/2');
+    }
+  });
+
+
+});
+
+router.get('/insurance/forms/2/delete/:id', isLoggedIn, function(req, res, next) {
+
+  var id = req.params.id;
+  var forms_request = 'DELETE FROM ic_form_requests WHERE id = ' + id + ' ';
+
+  connection.query(forms_request, function(err, rows) {
+    if (err) {
+      console.log("Error deleting :%s", err);
+    } else {
+      req.flash('success', 'Запрос успешно удален');
+      res.redirect('/insurance/forms/2');
+    }
+  });
 });
 
 
@@ -426,6 +567,8 @@ router.post('/staff/add', isLoggedIn, function (req, res, next)  {
   });
 });
 
+// Kasko
+
 router.get('/insurance/kasko/add', isLoggedIn, function (req, res, next) {
   res.render('./kasko/add', {
     url: 'insurance/kasko/add',
@@ -434,11 +577,11 @@ router.get('/insurance/kasko/add', isLoggedIn, function (req, res, next) {
   });
 });
 
-router.get('/insurance/kasko/iin/:val', function (req, res, next) {
+router.post('/insurance/kasko/iin/:val', function (req, res, next) {
 
     console.log(req.params.val);
 
-    var url = 'https://kupipolis.kz/ogpo/participantInfo?iin=' + req.params.val;
+    var url = 'https://webtest01.theeurasia.kz/insurance/policy/fetch-driver/';
     request({
       url: url,
       json: true
@@ -474,6 +617,7 @@ router.post('/insurance/kasko/save', isLoggedIn, function (req, res, next) {
         ins_price            : input.ins_price,
         ins_type             : 1,
         served_mid           : manager_id,
+        status               : 1,
         created_at           : kaskoCreatedDate,
         updated_at           : kaskoCreatedDate
     };
@@ -507,14 +651,18 @@ router.post('/insurance/kasko/save', isLoggedIn, function (req, res, next) {
 
 router.get('/insurance/kasko/clients', isLoggedIn, function(req, res, next) {
 
-  var kasko = 'SELECT  k.id, k.car_type, k.car_year, k.car_city, k.driver_experience, k.driver_age, k.driver_iin, k.client_city, k.client_fullname, k.client_phone, k.client_email, k.car_number, k.car_vin, k.client_address, k.payment_type, k.ins_price, k.ins_type, k.served_mid, m.id as manager_id, m.m_fullname, m.m_title FROM ic_kasko_order k INNER JOIN ic_managers m ON k.served_mid = m.id';
-  connection.query(kasko, function(err, rows) {
+  var kasko_new = 'SELECT  k.id, k.car_type, k.car_year, k.car_city, k.driver_experience, k.driver_age, k.driver_iin, k.client_city, k.client_fullname, k.client_phone, k.client_email, k.car_number, k.car_vin, k.client_address, k.payment_type, k.ins_price, k.ins_type, k.served_mid, k.status, m.id as manager_id, m.m_fullname, m.m_title FROM ic_kasko_order k INNER JOIN ic_managers m ON k.served_mid = m.id WHERE k.status = 0;';
+  var kasko_in_process = 'SELECT  k.id, k.car_type, k.car_year, k.car_city, k.driver_experience, k.driver_age, k.driver_iin, k.client_city, k.client_fullname, k.client_phone, k.client_email, k.car_number, k.car_vin, k.client_address, k.payment_type, k.ins_price, k.ins_type, k.served_mid, k.status, m.id as manager_id, m.m_fullname, m.m_title FROM ic_kasko_order k INNER JOIN ic_managers m ON k.served_mid = m.id WHERE k.status = 1;';
+  var kasko_finished = 'SELECT  k.id, k.car_type, k.car_year, k.car_city, k.driver_experience, k.driver_age, k.driver_iin, k.client_city, k.client_fullname, k.client_phone, k.client_email, k.car_number, k.car_vin, k.client_address, k.payment_type, k.ins_price, k.ins_type, k.served_mid, k.status, m.id as manager_id, m.m_fullname, m.m_title FROM ic_kasko_order k INNER JOIN ic_managers m ON k.served_mid = m.id WHERE k.status = 2;';
+  connection.query(kasko_new + kasko_in_process + kasko_finished, function(err, rows) {
     if (err) {
       console.log('Error selecting : %s', err);
     } else {
       res.render('./kasko/clients', {
         title: 'Список клиентов по КАСКО',
-        data: rows,
+        k_new: rows[0],
+        k_in_process: rows[1],
+        k_finished: rows[2],
         url: 'insurance/kasko/clients',
         userId: req.user.id
       });
@@ -544,7 +692,7 @@ router.get('/insurance/kasko/clients/find', isLoggedIn, function(req, res, next)
 
 router.get('/insurance/kasko/client/show/:id', isLoggedIn, function (req, res, next) {
   var id = req.params.id;
-  var client = 'SELECT  k.id, k.car_type, k.car_year, k.car_city, k.driver_experience, k.driver_age, k.driver_iin, k.client_city, k.client_fullname, k.client_phone, k.client_email, k.car_number, k.car_vin, k.client_address, k.payment_type, k.ins_price, k.ins_type, k.served_mid, m.id as manager_id, m.m_fullname, m.m_title FROM ic_kasko_order k INNER JOIN ic_managers m ON k.served_mid = m.id WHERE k.id =  ' + id + ' ';
+  var client = 'SELECT  k.id, k.car_type, k.car_year, k.car_city, k.driver_experience, k.driver_age, k.driver_iin, k.client_city, k.client_fullname, k.client_phone, k.client_email, k.car_number, k.car_vin, k.client_address, k.payment_type, k.ins_price, k.ins_type, k.served_mid, k.status, k.created_at, m.id as manager_id, m.m_fullname, m.m_title FROM ic_kasko_order k INNER JOIN ic_managers m ON k.served_mid = m.id WHERE k.id =  ' + id + ' ';
   connection.query(client, function (err, rows) {
     if (err) {
       console.log('Error selecting : %s', err);
@@ -561,7 +709,7 @@ router.get('/insurance/kasko/client/show/:id', isLoggedIn, function (req, res, n
 
 router.get('/insurance/kasko/client/edit/:id', isLoggedIn, function(req, res, next) {
   var id = req.params.id;
-  var client = 'SELECT  k.id, k.car_type, k.car_year, k.car_city, k.driver_experience, k.driver_age, k.driver_iin, k.client_city, k.client_fullname, k.client_phone, k.client_email, k.car_number, k.car_vin, k.client_address, k.payment_type, k.ins_price, k.ins_type, k.served_mid, m.id as manager_id, m.m_fullname, m.m_title FROM ic_kasko_order k INNER JOIN ic_managers m ON k.served_mid = m.id WHERE k.id =  ' + id + ' ';
+  var client = 'SELECT  k.id, k.car_type, k.car_year, k.car_city, k.driver_experience, k.driver_age, k.driver_iin, k.client_city, k.client_fullname, k.client_phone, k.client_email, k.car_number, k.car_vin, k.client_address, k.payment_type, k.ins_price, k.ins_type, k.served_mid, k.status, k.created_at, m.id as manager_id, m.m_fullname, m.m_title FROM ic_kasko_order k INNER JOIN ic_managers m ON k.served_mid = m.id WHERE k.id =  ' + id + ' ';
   connection.query(client, function(err, rows) {
     if (err) {
       console.log('Error selecting : %s', err);
@@ -582,7 +730,7 @@ router.post('/insurance/kasko/client/update/:id', isLoggedIn, function(req, res,
   var manager_id = req.user.id;
   var currentTime = new Date().toLocaleTimeString();
   var currentDate = new Date().toLocaleDateString();
-  var kaskoUpdatedDate = currentTime + ' ' + currentDate;
+  var updatedDate = currentTime + ' ' + currentDate;
   var data = {
     car_type             : input.car_type,
     car_city             : input.car_city,
@@ -601,10 +749,28 @@ router.post('/insurance/kasko/client/update/:id', isLoggedIn, function(req, res,
     ins_price            : input.ins_price,
     ins_type             : 1,
     served_mid           : manager_id,
-    created_at           : kaskoUpdatedDate,
-    updated_at           : kaskoUpdatedDate
+    status               : input.status,
+    created_at           : input.created_at,
+    updated_at           : updatedDate
+  };
+  var clientData = {
+      client_fullname      : input.client_fullname,
+      client_address       : input.client_address,
+      client_city          : input.client_city,
+      client_phone         : input.client_phone,
+      client_email         : input.client_email,
+      insurance_type       : 1,
+      created_at           : input.created_at,
+      updated_at           : updatedDate
   };
   console.log('Data appearance => ' + data);
+  connection.query("UPDATE ic_clients SET ? WHERE id = ?", [clientData, id], function(err, rows) {
+    if (err) {
+      console.log("Error inserting: %s", err);
+    } else {
+      console.log("Данные успешно изменены и внесены в клиентскую базу");
+    }
+  });
   connection.query("UPDATE ic_kasko_order SET ? WHERE id = ? ",[data,id], function(err, rows)
   {
     if (err) {
@@ -628,6 +794,8 @@ router.get('/insurance/kasko/client/delete/:id', isLoggedIn, function(req, res, 
     }
   });
 });
+
+// Clients
 
 
 router.get('/clients', isLoggedIn, function (req, res, next) {
@@ -670,6 +838,7 @@ router.get('/statistics', isLoggedIn, function (req, res, next) {
   if (req.user.m_isadmin != 1) {
     res.redirect('/home');
   } else {
+
     res.render('statistics', {
       url: 'statistics',
       title: 'Вся статистика',
@@ -678,6 +847,7 @@ router.get('/statistics', isLoggedIn, function (req, res, next) {
   }
 });
 
+// Announcements
 
 router.get('/announcements', isLoggedIn, function(req, res, next) {
   if (req.user.m_isadmin != 1) {
@@ -810,6 +980,8 @@ router.post('/announcement/save/:id', isLoggedIn, function(req, res, next) {
   }
 });
 
+// Tourism
+
 router.get('/insurance/tourism', isLoggedIn, function (req, res, next) {
  res.render('./tourism/tourism', {
     title: 'Туризм',
@@ -828,14 +1000,21 @@ router.get('/insurance/tourism/add', isLoggedIn, function (req, res, next) {
 
 router.get('/insurance/tourism/clients', isLoggedIn, function(req, res, next) {
 
-  var tourism = 'SELECT  k.id, k.insurance_sum, k.currency, k.currency_sum, k.start_date, k.end_date, k.client_city, k.client_fullname, k.client_phone, k.client_email, k.client_address, k.payment_type, k.insurance_price, k.insurance_type, k.served_mid, m.id as manager_id, m.m_fullname, m.m_title FROM ic_tourism_order k INNER JOIN ic_managers m ON k.served_mid = m.id';
-  connection.query(tourism, function(err, rows) {
+  var tourism_new = 'SELECT  k.id, k.insurance_sum, k.currency, k.currency_sum, k.start_date, k.end_date, k.client_city, k.client_fullname, k.client_phone, k.client_email, k.client_address, k.payment_type, k.insurance_price, k.insurance_type, k.served_mid, k.status, m.id as manager_id, m.m_fullname, m.m_title FROM ic_tourism_order k INNER JOIN ic_managers m ON k.served_mid = m.id WHERE k.status = 0 ORDER BY created_at desc;' ;
+  var tourism_in_process = 'SELECT  k.id, k.insurance_sum, k.currency, k.currency_sum, k.start_date, k.end_date, k.client_city, k.client_fullname, k.client_phone, k.client_email, k.client_address, k.payment_type, k.insurance_price, k.insurance_type, k.served_mid, k.status, m.id as manager_id, m.m_fullname, m.m_title FROM ic_tourism_order k INNER JOIN ic_managers m ON k.served_mid = m.id WHERE k.status = 1 ORDER BY created_at desc;' ;
+  var tourism_finished = 'SELECT  k.id, k.insurance_sum, k.currency, k.currency_sum, k.start_date, k.end_date, k.client_city, k.client_fullname, k.client_phone, k.client_email, k.client_address, k.payment_type, k.insurance_price, k.insurance_type, k.served_mid, k.status, m.id as manager_id, m.m_fullname, m.m_title FROM ic_tourism_order k INNER JOIN ic_managers m ON k.served_mid = m.id WHERE k.status = 2 ORDER BY created_at desc;' ;
+  connection.query(tourism_new+tourism_in_process+tourism_finished, function(err, rows) {
+    // console.log(tourism_new);
+    // console.log(tourism_in_process);
+    // console.log(tourism_finished);
     if (err) {
       console.log('Error selecting : %s', err);
     } else {
       res.render('./tourism/clients', {
         title: 'Список клиентов по полису - Туризм',
-        data: rows,
+        t_new: rows[0],
+        t_in_process: rows[1],
+        t_finished: rows[2],
         url: 'insurance/tourism/clients',
         userId: req.user.id
       });
@@ -862,6 +1041,635 @@ router.get('/insurance/tourism/clients/find', isLoggedIn, function(req, res, nex
      }
   });
 });
+
+
+router.post('/insurance/tourism/save', isLoggedIn, function (req, res, next) {
+    var input = JSON.parse(JSON.stringify(req.body));
+    var manager_id = req.user.id;
+    var currentTime = new Date().toLocaleTimeString();
+    var currentDate = new Date().toLocaleDateString();
+    var createdDate = currentTime + ' ' + currentDate;
+    var data = {
+          insurance_sum        : input.sc1,
+          currency             : input.sc2,
+          currency_sum         : input.curs,
+          start_date           : input.sc3,
+          end_date             : input.sc4,
+          days                 : input.kold,
+          client_city          : input.client_city,
+          client_fullname      : input.client_fullname,
+          client_phone         : input.client_phone,
+          client_email         : input.client_email,
+          client_iin           : input.client_iin,
+          client_address       : input.client_address,
+          payment_type         : input.payment_type,
+          insurance_price      : input.ins_price,
+          insurance_type       : 2,
+          served_mid           : manager_id,
+          status               : 1,
+          created_at           : createdDate,
+          updated_at           : createdDate
+      };
+    var clientData = {
+          client_fullname      : input.client_fullname,
+          client_address       : input.client_address,
+          client_city          : input.client_city,
+          client_phone         : input.client_phone,
+          client_email         : input.client_email,
+          insurance_type       : 2,
+          created_at           : createdDate,
+          updated_at           : createdDate
+    };
+    console.log('Data appearance => ' + data);
+    connection.query("INSERT INTO ic_clients SET ?", clientData, function(err, rows) {
+        if (err) {
+          console.log("Error inserting: %s", err);
+        } else {
+          console.log("Данные успешно добавлены в клиентскую базу");
+        }
+    });
+    connection.query("INSERT INTO ic_tourism_order SET ? ", data, function (err, rows) {
+        if (err) {
+            console.log("Error inserting: %s", err);
+        } else {
+            req.flash('success', 'Клиент успешно добавлен');
+            res.redirect('/insurance/tourism/clients');
+        }
+    });
+});
+
+
+
+router.get('/insurance/tourism/client/show/:id', isLoggedIn, function (req, res, next) {
+  var id = req.params.id;
+  var client = 'SELECT  k.id, k.insurance_sum, k.currency, k.currency_sum, k.start_date, k.end_date, k.days, k.client_city, k.client_fullname, k.client_phone, k.client_email, k.client_iin, k.client_address, k.payment_type, k.insurance_price, k.insurance_type, k.served_mid, k.status, k.created_at, k.updated_at, m.id as manager_id, m.m_fullname, m.m_title FROM ic_tourism_order k INNER JOIN ic_managers m ON k.served_mid = m.id WHERE k.id =  ' + id + ' ';
+  connection.query(client, function (err, rows) {
+    if (err) {
+      console.log('Error selecting : %s', err);
+    } else {
+      res.render('./tourism/show', {
+        title: 'Информация о клиенте ',
+        data: rows,
+        url: 'insurance/tourism/client/show' + id,
+        userId: req.user.id
+      });
+    }
+  });
+});
+
+
+router.get('/insurance/tourism/client/edit/:id', isLoggedIn, function (req, res, next) {
+  var id = req.params.id;
+  var client = 'SELECT  k.id, k.insurance_sum, k.currency, k.currency_sum, k.start_date, k.end_date, k.days, k.client_city, k.client_fullname, k.client_phone, k.client_email, k.client_iin, k.client_address, k.payment_type, k.insurance_price, k.insurance_type, k.served_mid, k.status, k.created_at, k.updated_at, m.id as manager_id, m.m_fullname, m.m_title FROM ic_tourism_order k INNER JOIN ic_managers m ON k.served_mid = m.id WHERE k.id =  ' + id + ' ';
+  connection.query(client, function (err, rows) {
+    if (err) {
+      console.log('Error selecting : %s', err);
+    } else {
+      res.render('./tourism/edit', {
+        title: 'Редактирование клиента ',
+        data: rows,
+        url: 'insurance/tourism/client/show' + id,
+        userId: req.user.id
+      });
+    }
+  });
+});
+
+
+router.post('/insurance/tourism/client/update/:id', isLoggedIn, function (req, res, next) {
+    var id = req.params.id;
+    var input = JSON.parse(JSON.stringify(req.body));
+    var manager_id = req.user.id;
+    var currentTime = new Date().toLocaleTimeString();
+    var currentDate = new Date().toLocaleDateString();
+    var updatedDate = currentTime + ' ' + currentDate;
+    var data = {
+          insurance_sum        : input.sc1,
+          currency             : input.sc2,
+          currency_sum         : input.curs,
+          start_date           : input.sc3,
+          end_date             : input.sc4,
+          days                 : input.kold,
+          client_city          : input.client_city,
+          client_fullname      : input.client_fullname,
+          client_phone         : input.client_phone,
+          client_email         : input.client_email,
+          client_iin           : input.client_iin,
+          client_address       : input.client_address,
+          payment_type         : input.payment_type,
+          insurance_price      : input.ins_price,
+          insurance_type       : 2,
+          served_mid           : manager_id,
+          status               : input.status,
+          created_at           : input.created_at,
+          updated_at           : updatedDate
+      };
+    var clientData = {
+          client_fullname      : input.client_fullname,
+          client_address       : input.client_address,
+          client_city          : input.client_city,
+          client_phone         : input.client_phone,
+          client_email         : input.client_email,
+          insurance_type       : 2,
+          created_at           : input.created_at,
+          updated_at           : updatedDate
+    };
+    console.log('Data appearance => ' + data);
+    connection.query("UPDATE ic_clients SET ? WHERE id = ?", [clientData, id], function(err, rows) {
+        if (err) {
+          console.log("Error inserting: %s", err);
+        } else {
+          console.log("Данные успешно изменены и внесены в клиентскую базу");
+        }
+    });
+    connection.query("UPDATE ic_tourism_order SET ? WHERE id = ?", [data, id], function (err, rows) {
+        if (err) {
+            console.log("Error inserting: %s", err);
+        } else {
+            req.flash('success', 'Клиент успешно редактирован');
+            res.redirect('/insurance/tourism/clients');
+        }
+    });
+});
+
+router.get('/insurance/tourism/client/delete/:id', isLoggedIn, function(req, res, next) {
+  var id = req.params.id;
+  var client = 'DELETE FROM ic_tourism_order WHERE id = ' + id + ' ';
+  connection.query(client, function(err, rows) {
+    if (err) {
+      console.log('Error deleting : %s', err);
+    } else {
+      req.flash('success', 'Заявка успешна удалена');
+      res.redirect('/insurance/tourism/clients');
+    }
+  });
+});
+
+
+
+// Gooods
+
+router.get('/insurance/goods', isLoggedIn, function (req, res, next) {
+ res.render('./goods/goods', {
+    title: 'Недвижимость',
+    url: 'insurance/goods',
+    userId: req.user.id
+  });
+});
+
+router.get('/insurance/goods/add', isLoggedIn, function (req, res, next) {
+  res.render('./goods/add', {
+    url: 'insurance/goods/add',
+    title: 'Добавить клиента по полису - Недвижимость',
+    userId: req.user.id
+  });
+});
+
+router.get('/insurance/goods/clients', isLoggedIn, function(req, res, next) {
+
+  var goods_new = 'SELECT  k.id, k.goods_type, k.risk_type, k.given_sum, k.client_city, k.client_fullname, k.client_phone, k.client_email, k.client_address, k.payment_type, k.insurance_price, k.insurance_type, k.served_mid, k.status, m.id as manager_id, m.m_fullname, m.m_title FROM ic_goods_order k INNER JOIN ic_managers m ON k.served_mid = m.id WHERE k.status = 0 ORDER BY created_at desc;' ;
+  var goods_in_process = 'SELECT  k.id, k.goods_type, k.risk_type, k.given_sum, k.client_city, k.client_fullname, k.client_phone, k.client_email, k.client_address, k.payment_type, k.insurance_price, k.insurance_type, k.served_mid, k.status, m.id as manager_id, m.m_fullname, m.m_title FROM ic_goods_order k INNER JOIN ic_managers m ON k.served_mid = m.id WHERE k.status = 1 ORDER BY created_at desc;' ;
+  var goods_finished = 'SELECT  k.id, k.goods_type, k.risk_type, k.given_sum, k.client_city, k.client_fullname, k.client_phone, k.client_email, k.client_address, k.payment_type, k.insurance_price, k.insurance_type, k.served_mid, k.status, m.id as manager_id, m.m_fullname, m.m_title FROM ic_goods_order k INNER JOIN ic_managers m ON k.served_mid = m.id WHERE k.status = 2 ORDER BY created_at desc;' ;
+  connection.query(goods_new + goods_in_process + goods_finished, function(err, rows) {
+    if (err) {
+      console.log('Error selecting : %s', err);
+    } else {
+      res.render('./goods/clients', {
+        title: 'Список клиентов по полису - Недвижимость',
+        g_new: rows[0],
+        g_in_process: rows[1],
+        g_finished: rows[2],
+        url: 'insurance/goods/clients',
+        userId: req.user.id
+      });
+    }
+  });
+});
+
+router.get('/insurance/goods/clients/find', isLoggedIn, function(req, res, next) {
+  var keyword = req.query.keyword;
+  console.log('Searching keyword => ' + keyword);
+  var query = 'SELECT * FROM ic_goods_order WHERE client_fullname LIKE "%' + keyword + '%" OR client_phone LIKE "%' + keyword + '%" OR client_address LIKE "%' + keyword + '%" OR client_email LIKE "%' + keyword + '%" OR client_city LIKE "%' + keyword + '%" ';
+  connection.query(query, function(err, rows) {
+    console.log("Searching query => " + query);
+     if(err) {
+      console.log("Error searching: %s", err);
+     } else {
+      console.log('Searched data => ' + rows);
+      res.render('./goods/find', {
+        url: 'insurance/goods/clients',
+        title: 'Поиск клиентов по полису - Недвижимость',
+        data: rows,
+        userId: req.user.id
+      });
+     }
+  });
+});
+
+
+router.post('/insurance/goods/save', isLoggedIn, function (req, res, next) {
+    var input = JSON.parse(JSON.stringify(req.body));
+    var manager_id = req.user.id;
+    var currentTime = new Date().toLocaleTimeString();
+    var currentDate = new Date().toLocaleDateString();
+    var createdDate = currentTime + ' ' + currentDate;
+    var risks = [
+      input.r1,
+      input.r2,
+      input.r3,
+      input.r4,
+      input.r5
+    ];
+
+    var array = risks.join();
+
+    var data = {
+        goods_type           : input.sc1,
+        risk_type            : array,
+        given_sum            : input.sc3,
+        client_city          : input.client_city,
+        client_fullname      : input.client_fullname,
+        client_phone         : input.client_phone,
+        client_email         : input.client_email,
+        client_address       : input.client_address,
+        payment_type         : input.payment_type,
+        insurance_price      : input.ins_price,
+        insurance_type       : 4,
+        served_mid           : manager_id,
+        status               : 1,
+        created_at           : createdDate,
+        updated_at           : createdDate
+    };
+    var clientData = {
+        client_fullname      : input.client_fullname,
+        client_address       : input.client_address,
+        client_city          : input.client_city,
+        client_phone         : input.client_phone,
+        client_email         : input.client_email,
+        insurance_type       : 4,
+        created_at           : createdDate,
+        updated_at           : createdDate
+    };
+    console.log(data);
+    connection.query("INSERT INTO ic_clients SET ?", clientData, function(err, rows) {
+        if (err) {
+          console.log("Error inserting: %s", err);
+        } else {
+          console.log("Данные успешно добавлены в клиентскую базу");
+        }
+    });
+    connection.query("INSERT INTO ic_goods_order SET ? ", data, function (err, rows) {
+        if (err) {
+            console.log("Error inserting: %s", err);
+        } else {
+            req.flash('success', 'Клиент успешно добавлен');
+            res.redirect('/insurance/goods/clients');
+        }
+    });
+});
+
+
+
+router.get('/insurance/goods/client/show/:id', isLoggedIn, function (req, res, next) {
+  var id = req.params.id;
+  var client = 'SELECT  k.id, k.goods_type, k.risk_type, k.given_sum, k.client_city, k.client_fullname, k.client_phone, k.client_email, k.client_address, k.payment_type, k.insurance_price, k.insurance_type, k.served_mid, k.status, k.created_at, k.updated_at, m.id as manager_id, m.m_fullname, m.m_title FROM ic_goods_order k INNER JOIN ic_managers m ON k.served_mid = m.id WHERE k.id =  ' + id + ' ';
+  connection.query(client, function (err, rows) {
+    if (err) {
+      console.log('Error selecting : %s', err);
+    } else {
+      res.render('./goods/show', {
+        title: 'Информация о клиенте ',
+        data: rows,
+        url: 'insurance/goods/client/show' + id,
+        userId: req.user.id
+      });
+    }
+  });
+});
+
+
+router.get('/insurance/goods/client/edit/:id', isLoggedIn, function (req, res, next) {
+  var id = req.params.id;
+  var client = 'SELECT  k.id, k.goods_type, k.risk_type, k.given_sum, k.client_city, k.client_fullname, k.client_phone, k.client_email, k.client_address, k.payment_type, k.insurance_price, k.insurance_type, k.served_mid, k.status, k.created_at, k.updated_at, m.id as manager_id, m.m_fullname, m.m_title FROM ic_goods_order k INNER JOIN ic_managers m ON k.served_mid = m.id WHERE k.id =  ' + id + ' ';
+  connection.query(client, function (err, rows) {
+    if (err) {
+      console.log('Error selecting : %s', err);
+    } else {
+      res.render('./goods/edit', {
+        title: 'Редактирование клиента ',
+        data: rows,
+        url: 'insurance/goods/client/show' + id,
+        userId: req.user.id
+      });
+    }
+  });
+});
+
+
+router.post('/insurance/goods/client/update/:id', isLoggedIn, function (req, res, next) {
+    var id = req.params.id;
+    var input = JSON.parse(JSON.stringify(req.body));
+    var manager_id = req.user.id;
+    var currentTime = new Date().toLocaleTimeString();
+    var currentDate = new Date().toLocaleDateString();
+    var updatedDate = currentTime + ' ' + currentDate;
+    var risks = [
+      input.r1,
+      input.r2,
+      input.r3,
+      input.r4,
+      input.r5
+    ];
+
+    var array = risks.join();
+
+    var data = {
+        goods_type           : input.sc1,
+        risk_type            : array,
+        given_sum            : input.sc3,
+        client_city          : input.client_city,
+        client_fullname      : input.client_fullname,
+        client_phone         : input.client_phone,
+        client_email         : input.client_email,
+        client_address       : input.client_address,
+        payment_type         : input.payment_type,
+        insurance_price      : input.ins_price,
+        insurance_type       : 4,
+        served_mid           : manager_id,
+        status               : input.status,
+        created_at           : input.created_at,
+        updated_at           : updatedDate
+      };
+    var clientData = {
+          client_fullname      : input.client_fullname,
+          client_address       : input.client_address,
+          client_city          : input.client_city,
+          client_phone         : input.client_phone,
+          client_email         : input.client_email,
+          insurance_type       : 2,
+          created_at           : input.created_at,
+          updated_at           : updatedDate
+    };
+    console.log('Data appearance => ' + data);
+    connection.query("UPDATE ic_clients SET ? WHERE id = ?", [clientData, id], function(err, rows) {
+        if (err) {
+          console.log("Error inserting: %s", err);
+        } else {
+          console.log("Данные успешно изменены и внесены в клиентскую базу");
+        }
+    });
+    connection.query("UPDATE ic_goods_order SET ? WHERE id = ?", [data, id], function (err, rows) {
+        if (err) {
+            console.log("Error inserting: %s", err);
+        } else {
+            req.flash('success', 'Клиент успешно редактирован');
+            res.redirect('/insurance/goods/clients');
+        }
+    });
+});
+
+router.get('/insurance/goods/client/delete/:id', isLoggedIn, function(req, res, next) {
+  var id = req.params.id;
+  var client = 'DELETE FROM ic_goods_order WHERE id = ' + id + ' ';
+  connection.query(client, function(err, rows) {
+    if (err) {
+      console.log('Error deleting : %s', err);
+    } else {
+      req.flash('success', 'Заявка успешна удалена');
+      res.redirect('/insurance/goods/clients');
+    }
+  });
+});
+
+
+
+// Accident
+
+
+
+
+router.get('/insurance/accident', isLoggedIn, function (req, res, next) {
+ res.render('./accident/accident', {
+    title: 'Несчастный случай',
+    url: 'insurance/accident',
+    userId: req.user.id
+  });
+});
+
+router.get('/insurance/accident/add', isLoggedIn, function (req, res, next) {
+  res.render('./accident/add', {
+    url: 'insurance/accident/add',
+    title: 'Добавить клиента по полису - Несчастный случай',
+    userId: req.user.id
+  });
+});
+
+router.get('/insurance/accident/clients', isLoggedIn, function(req, res, next) {
+
+  var accident_new = 'SELECT  k.id, k.insurance_money, k.insurance_territory, k.insurance_term, k.client_city, k.client_fullname, k.client_phone, k.client_email, k.client_address, k.payment_type, k.insurance_price, k.insurance_type, k.served_mid, k.status, m.id as manager_id, m.m_fullname, m.m_title FROM ic_accident_order k INNER JOIN ic_managers m ON k.served_mid = m.id WHERE k.status = 0 ORDER BY created_at desc;' ;
+  var accident_in_process = 'SELECT  k.id, k.insurance_money, k.insurance_territory, k.insurance_term, k.client_city, k.client_fullname, k.client_phone, k.client_email, k.client_address, k.payment_type, k.insurance_price, k.insurance_type, k.served_mid, k.status, m.id as manager_id, m.m_fullname, m.m_title FROM ic_accident_order k INNER JOIN ic_managers m ON k.served_mid = m.id WHERE k.status = 1 ORDER BY created_at desc;' ;
+  var accident_finished = 'SELECT  k.id, k.insurance_money, k.insurance_territory, k.insurance_term, k.client_city, k.client_fullname, k.client_phone, k.client_email, k.client_address, k.payment_type, k.insurance_price, k.insurance_type, k.served_mid, k.status, m.id as manager_id, m.m_fullname, m.m_title FROM ic_accident_order k INNER JOIN ic_managers m ON k.served_mid = m.id WHERE k.status = 2 ORDER BY created_at desc;' ;
+  connection.query(accident_new + accident_in_process + accident_finished, function(err, rows) {
+    if (err) {
+      console.log('Error selecting : %s', err);
+    } else {
+      res.render('./accident/clients', {
+        title: 'Список клиентов по полису - Несчастный случай',
+        a_new: rows[0],
+        a_in_process: rows[1],
+        a_finished: rows[2],
+        url: 'insurance/accident/clients',
+        userId: req.user.id
+      });
+    }
+  });
+});
+
+router.get('/insurance/accident/clients/find', isLoggedIn, function(req, res, next) {
+  var keyword = req.query.keyword;
+  console.log('Searching keyword => ' + keyword);
+  var query = 'SELECT * FROM ic_accident_order WHERE client_fullname LIKE "%' + keyword + '%" OR client_phone LIKE "%' + keyword + '%" OR client_address LIKE "%' + keyword + '%" OR client_email LIKE "%' + keyword + '%" OR client_city LIKE "%' + keyword + '%" ';
+  connection.query(query, function(err, rows) {
+    console.log("Searching query => " + query);
+     if(err) {
+      console.log("Error searching: %s", err);
+     } else {
+      console.log('Searched data => ' + rows);
+      res.render('./accident/find', {
+        url: 'insurance/accident/clients',
+        title: 'Поиск клиентов по полису - Несчастный случай',
+        data: rows,
+        userId: req.user.id
+      });
+     }
+  });
+});
+
+
+router.post('/insurance/accident/save', isLoggedIn, function (req, res, next) {
+    var input = JSON.parse(JSON.stringify(req.body));
+    var manager_id = req.user.id;
+    var currentTime = new Date().toLocaleTimeString();
+    var currentDate = new Date().toLocaleDateString();
+    var createdDate = currentTime + ' ' + currentDate;
+    var data = {
+        insurance_money      : input.sc1,
+        insurance_territory  : input.sc2,
+        insurance_term       : input.sc3,
+        client_city          : input.client_city,
+        client_fullname      : input.client_fullname,
+        client_phone         : input.client_phone,
+        client_email         : input.client_email,
+        client_address       : input.client_address,
+        client_iin           : input.client_iin,
+        payment_type         : input.payment_type,
+        insurance_price      : input.ins_price,
+        insurance_type       : 5,
+        served_mid           : manager_id,
+        status               : 1,
+        created_at           : createdDate,
+        updated_at           : createdDate
+    };
+    var clientData = {
+        client_fullname      : input.client_fullname,
+        client_address       : input.client_address,
+        client_city          : input.client_city,
+        client_phone         : input.client_phone,
+        client_email         : input.client_email,
+        insurance_type       : 5,
+        created_at           : createdDate,
+        updated_at           : createdDate
+    };
+    console.log(data);
+    connection.query("INSERT INTO ic_clients SET ?", clientData, function(err, rows) {
+        if (err) {
+          console.log("Error inserting: %s", err);
+        } else {
+          console.log("Данные успешно добавлены в клиентскую базу");
+        }
+    });
+    connection.query("INSERT INTO ic_accident_order SET ? ", data, function (err, rows) {
+        if (err) {
+            console.log("Error inserting: %s", err);
+        } else {
+            req.flash('success', 'Клиент успешно добавлен');
+            res.redirect('/insurance/accident/clients');
+        }
+    });
+});
+
+
+
+router.get('/insurance/accident/client/show/:id', isLoggedIn, function (req, res, next) {
+  var id = req.params.id;
+  var client = 'SELECT  k.id, k.insurance_money, k.insurance_territory, k.insurance_term, k.client_city, k.client_fullname, k.client_phone, k.client_email, k.client_address, k.payment_type, k.insurance_price, k.insurance_type, k.served_mid, k.status, k.created_at, k.updated_at, m.id as manager_id, m.m_fullname, m.m_title FROM ic_goods_order k INNER JOIN ic_managers m ON k.served_mid = m.id WHERE k.id =  ' + id + ' ';
+  connection.query(client, function (err, rows) {
+    if (err) {
+      console.log('Error selecting : %s', err);
+    } else {
+      res.render('./accident/show', {
+        title: 'Информация о клиенте ',
+        data: rows,
+        url: 'insurance/accident/client/show' + id,
+        userId: req.user.id
+      });
+    }
+  });
+});
+
+
+router.get('/insurance/accident/client/edit/:id', isLoggedIn, function (req, res, next) {
+  var id = req.params.id;
+  var client = 'SELECT  k.id, k.insurance_money, k.insurance_territory, k.insurance_term, k.client_city, k.client_fullname, k.client_phone, k.client_email, k.client_address, k.client_iin, k.payment_type, k.insurance_price, k.insurance_type, k.served_mid, k.status, k.created_at, k.updated_at, m.id as manager_id, m.m_fullname, m.m_title FROM ic_accident_order k INNER JOIN ic_managers m ON k.served_mid = m.id WHERE k.id =  ' + id + ' ';
+  connection.query(client, function (err, rows) {
+    if (err) {
+      console.log('Error selecting : %s', err);
+    } else {
+      res.render('./accident/edit', {
+        title: 'Редактирование клиента ',
+        data: rows,
+        url: 'insurance/accident/client/show' + id,
+        userId: req.user.id
+      });
+    }
+  });
+});
+
+
+router.post('/insurance/accident/client/update/:id', isLoggedIn, function (req, res, next) {
+    var id = req.params.id;
+    var input = JSON.parse(JSON.stringify(req.body));
+    var manager_id = req.user.id;
+    var currentTime = new Date().toLocaleTimeString();
+    var currentDate = new Date().toLocaleDateString();
+    var updatedDate = currentTime + ' ' + currentDate;
+    var data = {
+        insurance_money      : input.sc1,
+        insurance_territory  : input.sc2,
+        insurance_term       : input.sc3,
+        client_city          : input.client_city,
+        client_fullname      : input.client_fullname,
+        client_phone         : input.client_phone,
+        client_email         : input.client_email,
+        client_address       : input.client_address,
+        client_iin           : input.client_iin,
+        payment_type         : input.payment_type,
+        insurance_price      : input.ins_price,
+        insurance_type       : 5,
+        served_mid           : manager_id,
+        status               : input.status,
+        created_at           : input.created_at,
+        updated_at           : updatedDate
+    };
+    var clientData = {
+        client_fullname      : input.client_fullname,
+        client_address       : input.client_address,
+        client_city          : input.client_city,
+        client_phone         : input.client_phone,
+        client_email         : input.client_email,
+        insurance_type       : 5,
+        created_at           : input.created_at,
+        updated_at           : updatedDate
+    };
+    console.log(data);
+    connection.query("UPDATE ic_clients SET ? WHERE id = ?", [clientData, id], function(err, rows) {
+        if (err) {
+          console.log("Error inserting: %s", err);
+        } else {
+          console.log("Данные успешно изменены и внесены в клиентскую базу");
+        }
+    });
+    connection.query("UPDATE ic_accident_order SET ? WHERE id = ?", [data, id], function (err, rows) {
+        if (err) {
+            console.log("Error inserting: %s", err);
+        } else {
+            req.flash('success', 'Клиент успешно редактирован');
+            res.redirect('/insurance/accident/clients');
+        }
+    });
+});
+
+router.get('/insurance/accident/client/delete/:id', isLoggedIn, function(req, res, next) {
+  var id = req.params.id;
+  var client = 'DELETE FROM ic_accident_order WHERE id = ' + id + ' ';
+  connection.query(client, function(err, rows) {
+    if (err) {
+      console.log('Error deleting : %s', err);
+    } else {
+      req.flash('success', 'Заявка успешна удалена');
+      res.redirect('/insurance/accident/clients');
+    }
+  });
+});
+
+
+
+
+
+
+
+
+
 
 // Authenticated User Middleware
 function isLoggedIn(req, res, next) {

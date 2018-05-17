@@ -23,6 +23,7 @@
             <form action="/insurance/kasko/client/update/<%= data[0].id %>" method="post" class="type-form">
               <table class="table table-user-information">
                 <tbody>
+                  <input type="hidden" value="<%= data[0].created_at %>" name="created_at">
                   <tr>
                     <td>ФИО клиента:</td>
                     <td><input type="text" class="form-control" placeholder="" name="client_fullname" value="<%= data[0].client_fullname %>"></td>
@@ -33,7 +34,7 @@
                   </tr>
                   <tr>
                     <td>Телефон:</td>
-                    <td><input type="text" class="form-control" placeholder="" name="client_phone" value="<%= data[0].client_phone %>"></td>
+                    <td><input type="text" class="form-control phone" placeholder="" name="client_phone" value="<%= data[0].client_phone %>"></td>
                   </tr>
                   <tr>
                     <td>Электронная почта:</td>
@@ -47,25 +48,25 @@
                     <td>Город</td>
                     <td>
                       <select name="client_city" class="form-control" id="">
-                        <option value="">Укажите город</option>
-                        <option value="Актау">Актау</option>
-                        <option value="Актобе">Актобе</option>
-                        <option value="Алматы">Алматы</option>
-                        <option value="Астана">Астана</option>
-                        <option value="Атырау">Атырау</option>
-                        <option value="Жезказган">Жезказган</option>
-                        <option value="Караганда">Караганда</option>
-                        <option value="Кокшетау">Кокшетау</option>
-                        <option value="Костанай">Костанай</option>
-                        <option value="Кызылорда">Кызылорда</option>
-                        <option value="Павлодар">Павлодар</option>
-                        <option value="Петропавловск">Петропавловск</option>
-                        <option value="Семей">Семей</option>
-                        <option value="Талдыкорган">Талдыкорган</option>
-                        <option value="Тараз">Тараз</option>
-                        <option value="Уральск">Уральск</option>
-                        <option value="Усть-Каменогорск">Усть-Каменогорск</option>
-                        <option value="Шымкент">Шымкент</option>
+                         <option value="">Укажите город</option>
+                        <option value="Актау" <% if(data[0].client_city == 'Актау'){%> selected <%} %> >Актау</option>
+                        <option value="Актобе"  <% if(data[0].client_city == 'Актобе'){%> selected <%} %> >Актобе</option>
+                        <option value="Алматы"  <% if(data[0].client_city == 'Алматы'){%> selected <%} %> >Алматы</option>
+                        <option value="Астана"  <% if(data[0].client_city == 'Астана'){%> selected <%} %> >Астана</option>
+                        <option value="Атырау"  <% if(data[0].client_city == 'Атырау'){%> selected <%} %> >Атырау</option>
+                        <option value="Жезказган"  <% if(data[0].client_city == 'Жезказган'){%> selected <%} %> >Жезказган</option>
+                        <option value="Караганда"  <% if(data[0].client_city == 'Караганда'){%> selected <%} %> >Караганда</option>
+                        <option value="Кокшетау"  <% if(data[0].client_city == 'Кокшетау'){%> selected <%} %> >Кокшетау</option>
+                        <option value="Костанай"  <% if(data[0].client_city == 'Костанай'){%> selected <%} %> >Костанай</option>
+                        <option value="Кызылорда"  <% if(data[0].client_city == 'Кызылорда'){%> selected <%} %> >Кызылорда</option>
+                        <option value="Павлодар"  <% if(data[0].client_city == 'Павлодар'){%> selected <%} %> >Павлодар</option>
+                        <option value="Петропавловск"  <% if(data[0].client_city == 'Петропавловск'){%> selected <%} %> >Петропавловск</option>
+                        <option value="Семей"  <% if(data[0].client_city == 'Семей'){%> selected <%} %> >Семей</option>
+                        <option value="Талдыкорган"  <% if(data[0].client_city == 'Талдыкорган'){%> selected <%} %> >Талдыкорган</option>
+                        <option value="Тараз"  <% if(data[0].client_city == 'Тараз'){%> selected <%} %> >Тараз</option>
+                        <option value="Уральск"  <% if(data[0].client_city == 'Уральск'){%> selected <%} %> >Уральск</option>
+                        <option value="Усть-Каменогорск"  <% if(data[0].client_city == 'Каменогорск'){%> selected <%} %> >Усть-Каменогорск</option>
+                        <option value="Шымкент"  <% if(data[0].client_city == 'Шымкент'){%> selected <%} %> >Шымкент</option>
                       </select>
                     </td>
                   </tr>
@@ -102,13 +103,13 @@
                     <td>
                       <select name="car_type" id="" class="form-control type1">
                         <option value="">Выберите тип ТС</option>
-                        <option value="0">Легковой автомобиль</option>
-                        <option value="1">Автобусы до 16 мест</option>
-                        <option value="2">Автобусы более 16 мест</option>
-                        <option value="3">Грузовые</option>
-                        <option value="4">Троллейбусы, трамваи</option>
-                        <option value="5">Мототранспорт</option>
-                        <option value="6">Прицепы (полуприцепы)</option>
+                        <option value="0" <% if(data[0].car_type == '0'){%> selected <%} %> >Легковой автомобиль</option>
+                        <option value="1" <% if(data[0].car_type == '1'){%> selected <%} %> >Автобусы до 16 мест</option>
+                        <option value="2" <% if(data[0].car_type == '2'){%> selected <%} %> >Автобусы более 16 мест</option>
+                        <option value="3" <% if(data[0].car_type == '3'){%> selected <%} %> >Грузовые</option>
+                        <option value="4" <% if(data[0].car_type == '4'){%> selected <%} %> >Троллейбусы, трамваи</option>
+                        <option value="5" <% if(data[0].car_type == '5'){%> selected <%} %> >Мототранспорт</option>
+                        <option value="6" <% if(data[0].car_type == '6'){%> selected <%} %> >Прицепы (полуприцепы)</option>
                       </select>
                     </td>
                   </tr>
@@ -116,24 +117,37 @@
                     <td>Город регистрации ТС</td>
                     <td>
                       <select name="car_city" id="" class="form-control reg1 ter">
-                        <option value="">Выберите город</option>
-                        <option value="2">Алматы</option>
-                        <option value="1">Астана</option>
-                        <option value="5">Алматинская область</option>
-                        <option value="13">Южно-Казахстанская область</option>
-                        <option value="16">Восточно-Казахстанская область</option>
-                        <option value="10">Костанайская область</option>
-                        <option value="9">Карагандинская область</option>
-                        <option value="15">Северо-Казахстанская область</option>
-                        <option value="3">Акмолинская область</option>
-                        <option value="14">Павлодарская область</option>
-                        <option value="8">Жамбылская область</option>
-                        <option value="4">Актюбинская область</option>
-                        <option value="7">Западно-Казахстанская область</option>
-                        <option value="11">Кызылординская область</option>
-                        <option value="6">Атырауская область</option>
-                        <option value="12">Мангистауская область</option>
-                        <option value="17">Временный вьезд</option>
+                        <option value="0" <% if(data[0].car_city == '0'){%> selected <%} %>>Алматы</option>
+                        <option value="1" <% if(data[0].car_city == '1'){%> selected <%} %> >Астана</option>
+                        <option value="151" <% if(data[0].car_city == '151'){%> selected <%} %> >Актау (Жанаозень)</option>
+                        <option value="111" <% if(data[0].car_city == '111'){%> selected <%} %> >Актобе</option>
+                        <option value="141" <% if(data[0].car_city == '141'){%> selected <%} %> >Атырау</option>
+                        <option value="61" <% if(data[0].car_city == '61'){%> selected <%} %> >Караганда (Сарань, Шахтинск, Каражал)</option>
+                        <option value="81" <% if(data[0].car_city == '81'){%> selected <%} %> >Кокшетау (Степногорск)</option>
+                        <option value="51" <% if(data[0].car_city == '51'){%> selected <%} %> >Костанай (Рудный, Лисаковск, Аркалык)</option>
+                        <option value="131" <% if(data[0].car_city == '131'){%> selected <%} %> >Кызылорда (Байконур)</option>
+                        <option value="91" <% if(data[0].car_city == '91'){%> selected <%} %> >Павлодар (Аксу)</option>
+                        <option value="71" <% if(data[0].car_city == '71'){%> selected <%} %> >Петропавловск</option>
+                        <option value="21" <% if(data[0].car_city == '21'){%> selected <%} %> >Талдыкорган (Капчагай,Текели)</option>
+                        <option value="101" <% if(data[0].car_city == '101'){%> selected <%} %> >Тараз</option>
+                        <option value="121" <% if(data[0].car_city == '121'){%> selected <%} %> >Уральск</option>
+                        <option value="41" <% if(data[0].car_city == '41'){%> selected <%} %> >Усть-Каменогорск (Семей,Риддер,Курчатов)</option>
+                        <option value="31" <% if(data[0].car_city == '31'){%> selected <%} %>>Шымкент (Арысь, Кентау)</option>
+                        <option value="171" <% if(data[0].car_city == '171'){%> selected <%} %>>Экибастуз</option>
+                        <option value="2" <% if(data[0].car_city == '2'){%> selected <%} %> >Алматинская область</option>
+                        <option value="3" <% if(data[0].car_city == '3'){%> selected <%} %>>Южно-Казахстанская область</option>
+                        <option value="4" <% if(data[0].car_city == '4'){%> selected <%} %> >Восточно-Казахстанская область</option>
+                        <option value="5" <% if(data[0].car_city == '5'){%> selected <%} %> >Костанайская область</option>
+                        <option value="6" <% if(data[0].car_city == '6'){%> selected <%} %>>Карагандинская область</option>
+                        <option value="7" <% if(data[0].car_city == '8'){%> selected <%} %>>Северо-Казахстанская область</option>
+                        <option value="8" <% if(data[0].car_city == '9'){%> selected <%} %>>Акмолинская область</option>
+                        <option value="9" <% if(data[0].car_city == '9'){%> selected <%} %>>Павлодарская область</option>
+                        <option value="10" <% if(data[0].car_city == '10'){%> selected <%} %>>Жамбылская область</option>
+                        <option value="11" <% if(data[0].car_city == '11'){%> selected <%} %>>Актюбинская область</option>
+                        <option value="12" <% if(data[0].car_city == '12'){%> selected <%} %>>Западно-Казахстанская область</option>
+                        <option value="13" <% if(data[0].car_city == '13'){%> selected <%} %>>Кызылординская область</option>
+                        <option value="14" <% if(data[0].car_city == '14'){%> selected <%} %>>Атырауская область</option>
+                        <option value="15" <% if(data[0].car_city == '15'){%> selected <%} %>>Мангистауская область</option>
                       </select>
                     </td>
                   </tr>
@@ -176,23 +190,43 @@
                   <tr>
                     <td>
                       <div class="form-group">
-                        <button type="button" class="form-control btn btn-add" name="calc">Рассчитать</button>
+                         <a href="javascript:calcAuto()" class="form-control btn btn-add">Узнать стоимость</a>
+                        <div class="result"> Стоимость полиса - 0 тг. </div>
+
                       </div>
                     </td>
                   </tr>
                   <tr>
                     <td>Сумма страхования</td>
-                    <td><input type="text" name="ins_price" class="form-control" value="<%= data[0].ins_price %>"></td>
+                    <td><div class="send"></div>
+                    </td>
                   </tr>
-
+                  <tr>
+                    <td>Статус заявки</td>
+                    <td>
+                      <select name="status" id="" class="form-control">
+                        <%if(data[0].status == '0'){%>
+                          <option value="0" selected>Установлен статус - Новая заявка</option>
+                          <option value="1">Установить статус - В процессе</option>
+                          <option value="3">Установить статус - Отклонен</option>
+                        <%} else if(data[0].status == '1') {%>
+                          <option value="1" selected>Установлен статус - В процессе</option>
+                          <option value="2">Установить статус - Завершен</option>
+                          <option value="3">Установить статус - Отклонен</option>
+                        <%} else if(data[0].status == '2' || data[0].status == '3'){%>
+                          <p>Статус не выставляется</p>
+                        <%} %>
+                      </select>
+                    </td>
+                  </tr>
                 </tbody>
-              </table>
+                </table>
                <a href="/staff" class="btn btn-back">К списку</a>
               <input type="submit" class="btn btn-add" value="Сохранить"></a>
             </form>
           </div>
          
-          
+      
         </div>
       </div>
     </div>

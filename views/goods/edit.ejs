@@ -7,8 +7,8 @@
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a href="/home">Главная страница</a></li>
       <li class="breadcrumb-item"><a href="/policies">Полисы </a></li>
-      <li class="breadcrumb-item"><a href="/insurance/tourism">Туризм</a></li>
-      <li class="breadcrumb-item"><a href="/insurance/tourism/clients">Список клиентов по полису - Туризм</a></li>
+      <li class="breadcrumb-item"><a href="/insurance/goods">Недвижимость</a></li>
+      <li class="breadcrumb-item"><a href="/insurance/goods/clients">Список клиентов по полису - Недвижимость</a></li>
       <li class="breadcrumb-item active" aria-current="page"><%= title %> - <%= data[0].client_fullname %></li>
     </ol>
   </nav>
@@ -20,7 +20,7 @@
       <div class="panel-body">
         <div class="row">
           <div class=" col-md-12 col-lg-12">
-              <form action="/insurance/tourism/client/update/<%=data[0].id%>" method="post" class="type-form">
+              <form action="/insurance/goods/client/update/<%=data[0].id%>" method="post" class="type-form">
               <table class="table table-user-information">
                 <tbody>
                   <input type="hidden" value="<%= data[0].created_at %>" name="created_at">
@@ -35,10 +35,6 @@
                   <tr>
                     <td>Телефон:</td>
                     <td><input type="text" class="form-control phone" placeholder="" name="client_phone" value="<%=data[0].client_phone%>"></td>
-                  </tr>
-                  <tr>
-                    <td>ИИН:</td>
-                    <td><input type="text" class="form-control" placeholder="" name="client_iin" value="<%= data[0].client_iin %>"></td>
                   </tr>
                   <tr>
                     <td>Электронная почта:</td>
@@ -71,36 +67,43 @@
                     </td>
                   </tr>
                   <tr>
-                    <td>Начало поездки:</td>
-                    <td><input class="sc3 start_date form-control" name="sc3" value="<%= data[0].start_date %>"></td>
+                    <td>Суммая страхования:</td>
+                    <td><input class="sc3 form-control" name="sc3" value="<%= data[0].given_sum %>"></td>
                   </tr>
                   <tr>
-                    <td>Конец поездки:</td>
-                    <td><input class="sc4 end_date form-control" name="sc4" value="<%= data[0].end_date %>"></td>
-                  </tr>
-                  <tr>
-                    <td>Количество дней:</td>
-                    <td><input type="text" readonly="readonly" class="kold form-control" name="kold" value="<%= data[0].days %>" style="cursor: pointer;"></td>
-                  </tr>
-                  <tr>
-                    <td>Страхования cумма:</td>
+                    <td>Объект страхования:</td>
                     <td><select name="sc1" class="sc1 form-control" id="">
-                      <option value="30000">30 000</option>
-                      <option value="60000">60 000</option>
+                      <option value="0" <% if(data[0].goods_type == '0'){%> selected <%} %> >Квартира</option>
+                      <option value="1" <% if(data[0].goods_type == '1'){%> selected <%} %> >Частный дом</option>
                     </select></td>
                   </tr>
                   <tr>
-                    <td>Валюта:</td>
-                    <td><select name="sc2" class="sc2 form-control" id="">
-                       <%if(data[0].currency == '0'){%>
-                          <option value="0" selected>USD</option>
-                          <!-- <option value="1">EURO</option> -->
-                        <%} %>
-                    </select></td>
-                  </tr>
-                  <tr>
-                    <td>Курс:</td>
-                    <td><input type="text" readonly="readonly" class="curs form-control" name="curs" value="327.97" style="cursor: pointer;"></td>
+                    <td>Риски: </td>
+                    <td>
+                      <%= data[0].risk_type %> <br> <a class="btn btn-sm" onclick="$('#risks').slideToggle('slow');" href="javascript://">Изменить</a>
+                      <div id="risks" style="display:none;">
+                        <label class="container"> Огонь (пожар, авария, электросети)
+                        <input type="checkbox" name="r1" id="r1" class="r1 ri" value="Огонь (пожар, авария, электросети)">
+                        <span class="checkmark"></span>
+                      </label>
+                      <label class="container">Залив
+                        <input type="checkbox" name="r2" id="r2" class="r2 ri" value="Залив">
+                        <span class="checkmark"></span>
+                      </label>
+                      <label class="container">Повреждение
+                        <input type="checkbox" name="r3" id="r3" class="r3 ri" value="Повреждение">
+                        <span class="checkmark"></span>
+                      </label>
+                      <label class="container">Стихийные бедствия
+                        <input type="checkbox" name="r4" id="r4" class="r4 ri" value="Стихийные бедствия">
+                        <span class="checkmark"></span>
+                      </label>
+                      <label class="container">Противоправные действия третьих лиц
+                        <input type="checkbox" name="r5" id="r5" class="r5 ri" value="Противоправные действия третьих лиц">
+                        <span class="checkmark"></span>
+                      </label>
+                      </div>
+                    </td>
                   </tr>
                   <tr>
                     <td>Способ оплаты</td>
@@ -119,7 +122,7 @@
                   <tr>
                     <td>
                       <div class="form-group">
-                        <a href="javascript:calc()" class="form-control btn btn-add">Узнать стоимость</a>
+                        <a href="javascript:calcGoods()" class="form-control btn btn-add">Узнать стоимость</a>
                         <div class="result"> Стоимость полиса - 0 тг. </div>
                       </div>
                     </td>

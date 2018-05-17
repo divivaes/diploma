@@ -457,3 +457,11 @@ table tr {
   font-size: 25px;
 }
 
+.my-2 {
+  padding-top: 20px;
+}
+
+.nav-tabs > .nav-item > a {
+  color: #fbb700;
+}
+

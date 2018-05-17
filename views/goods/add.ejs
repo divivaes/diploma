@@ -7,7 +7,7 @@
   <ol class="breadcrumb">
     <li class="breadcrumb-item"><a href="/home">Главная страница</a></li>
     <li class="breadcrumb-item"><a href="/policies">Полисы </a></li>
-    <li class="breadcrumb-item"><a href="/insurance/tourism">Туризм</a></li>
+    <li class="breadcrumb-item"><a href="/insurance/goods">Недвижимость</a></li>
     <li class="breadcrumb-item active" aria-current="page"><%= title %></li>
   </ol>
 </nav>
@@ -19,7 +19,7 @@
       <div class="panel-body">
         <div class="row">
           <div class=" col-md-12 col-lg-12">
-            <form action="/insurance/tourism/save" method="post" class="type-form">
+            <form action="/insurance/goods/save" method="post" class="type-form">
               <table class="table table-user-information">
                 <tbody>
                   <tr>
@@ -33,10 +33,6 @@
                   <tr>
                     <td>Телефон:</td>
                     <td><input type="text" class="form-control phone" placeholder="" name="client_phone"></td>
-                  </tr>
-                   <tr>
-                    <td>ИИН:</td>
-                    <td><input type="text" class="form-control" placeholder="" name="client_iin"></td>
                   </tr>
                   <tr>
                     <td>Электронная почта:</td>
@@ -69,34 +65,45 @@
                     </td>
                   </tr>
                   <tr>
-                    <td>Начало поездки:</td>
-                    <td><input class="sc3 start_date form-control" name="sc3"></td>
+                    <td>Объект страхования: </td>
+                    <td>
+                      <select class="form-control sc1" name="sc1" rel="1">
+                        <option value="0" selected="selected">Квартира</option>
+                        <option value="1" >Частный дом</option>
+                      </select>
+                    </td>
                   </tr>
                   <tr>
-                    <td>Конец поездки:</td>
-                    <td><input class="sc4 end_date form-control" name="sc4"></td>
+                    <td>Риски: </td>
+                    <td>
+                      <label class="container"> Огонь (пожар, авария, электросети)
+                        <input type="checkbox" name="r1" id="r1" class="r1 ri" value="Огонь (пожар, авария, электросети)">
+                        <span class="checkmark"></span>
+                      </label>
+                      <label class="container">Залив
+                        <input type="checkbox" name="r2" id="r2" class="r2 ri" value="Залив">
+                        <span class="checkmark"></span>
+                      </label>
+                      <label class="container">Повреждение
+                        <input type="checkbox" name="r3" id="r3" class="r3 ri" value="Повреждение">
+                        <span class="checkmark"></span>
+                      </label>
+                      <label class="container">Стихийные бедствия
+                        <input type="checkbox" name="r4" id="r4" class="r4 ri" value="Стихийные бедствия">
+                        <span class="checkmark"></span>
+                      </label>
+                      <label class="container">Противоправные действия третьих лиц
+                        <input type="checkbox" name="r5" id="r5" class="r5 ri" value="Противоправные действия третьих лиц">
+                        <span class="checkmark"></span>
+                      </label>
+                    </td>
                   </tr>
                   <tr>
-                    <td>Количество дней:</td>
-                    <td><input type="text" readonly="readonly" class="kold form-control" name="kold" style="cursor: pointer;"></td>
-                  </tr>
-                  <tr>
-                    <td>Страхования cумма:</td>
-                    <td><select name="sc1" class="sc1 form-control" id="">
-                      <option value="30000">30 000</option>
-                      <option value="60000">60 000</option>
-                    </select></td>
-                  </tr>
-                  <tr>
-                    <td>Валюта:</td>
-                    <td><select name="sc2" class="sc2 form-control" id="">
-                      <option value="0">USD</option>
-                      <!-- <option value="1">EURO</option> -->
-                    </select></td>
-                  </tr>
-                  <tr>
-                    <td>Курс:</td>
-                    <td><input type="text" readonly="readonly" class="curs form-control" name="curs" value="327.97" style="cursor: pointer;"></td>
+                    <td>Страховая сумма :</td>
+                    <td>
+                      <input  name="sc3" class="sc3 form-control" rel="1" type="text">
+                      <p>от 3 000 000 до 20 000 000 тг.</p>
+                    </td>
                   </tr>
                   <tr>
                     <td>Способ оплаты</td>
@@ -111,7 +118,7 @@
                   <tr>
                     <td>
                       <div class="form-group">
-                        <a href="javascript:calc()" class="form-control btn btn-add">Узнать стоимость</a>
+                        <a href="javascript:calcGoods()" class="form-control btn btn-add">Узнать стоимость</a>
                         <div class="result"> Стоимость полиса - 0 тг. </div>
                       </div>
                     </td>

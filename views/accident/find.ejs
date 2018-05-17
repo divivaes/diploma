@@ -10,16 +10,16 @@
             <ol class="breadcrumb">
               <li class="breadcrumb-item"><a href="/home">Главная страница</a></li>
               <li class="breadcrumb-item"><a href="/policies">Полисы </a></li>
-              <li class="breadcrumb-item"><a href="/insurance/kasko">КАСКО</a></li>
+              <li class="breadcrumb-item"><a href="/insurance/accident">Несчастный случай</a></li>
               <li class="breadcrumb-item active" aria-current="page"><%= title %></li>
             </ol>
           </nav>  
           <div class="staff-header">
             <h2><%= title %></h2> 
-            <a href="/insurance/kasko/add" class="btn btn-add">Добавить клиента</a>
-            <a href="/insurance/kasko/clients" class="btn btn-add">Сбросить поиск</a>
+            <a href="/insurance/accident/add" class="btn btn-add">Добавить клиента</a>
+            <a href="/insurance/accident/clients" class="btn btn-add">Сбросить поиск</a>
           </div>
-          <form action="/insurance/kasko/clients/find" method="get">
+          <form action="/insurance/accident/clients/find" method="get">
             <input class="form-control form-control-dark" type="text" placeholder="Введите ФИО, ИИН, телефон ..." aria-label="Search">
           </form>
           <div class="table-responsive">
@@ -31,9 +31,8 @@
                   <th>Телефон</th>
                   <th>Город</th>
                   <th>Адрес</th>
-                  <th>ИИН</th>
-                  <th>Тип ТС</th>
                   <th>Cумма страхования</th>
+                  <th>Стоимость страхования</th>
                   <th>Статус</th>
                   <th>Действия</th>
                 </tr>
@@ -49,16 +48,13 @@
                       <td><%=data[i].client_phone%></td>
                       <td><%=data[i].client_city%></td>
                       <td><%=data[i].client_address%></td>
-                      <td><%=data[i].driver_iin%></td>
-                      <td>
-                        <%if(data[i].car_type == 0){%> Легковой автомобиль <%} else if (data[i].car_type == 1){%> Автобусы до 16 мест <%} else if (data[i].car_type == 2){%> Автобусы более 16 мест <%} else if (data[i].car_type == 3){%> Грузовые <%} else if(data[i].car_type == 4) {%> Троллейбусы, трамваи <%} else if (data[i].car_type == 5) {%> Мототранспорт <%} else if (data[i].car_type == 6) {%> Прицепы (полуприцепы) <%} %>
-                      </td>
-                      <td><%=data[i].ins_price%></td>
+                      <td><%=data[i].insurance_money%></td>
+                      <td><%=data[i].insurance_price%></td>
                       <th><%if(data[i].status == 0){%> Новая заявка <%} else if (data[i].status == 1){%> В процессе <%} else if(data[i].status == 2){%> Завершен <%} %></th>
                       <td>
-                          <a href="/insurance/kasko/client/show/<%=data[i].id%>"><i data-feather="eye"></i></a>
-                          <a href="/insurance/kasko/client/edit/<%=data[i].id%>"><i data-feather="edit-2"></i></a>
-                          <a href="/insurance/kasko/client/delete/<%=data[i].id%>"><i data-feather="trash-2"></i></a>
+                          <a href="/insurance/accident/client/show/<%=data[i].id%>"><i data-feather="eye"></i></a>
+                          <a href="/insurance/accident/client/edit/<%=data[i].id%>"><i data-feather="edit-2"></i></a>
+                          <a href="/insurance/accident/client/delete/<%=data[i].id%>"><i data-feather="trash-2"></i></a>
                       </td>
                   </tr>
                   <% }
